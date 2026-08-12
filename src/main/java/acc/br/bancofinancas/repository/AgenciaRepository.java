@@ -1,5 +1,8 @@
 package acc.br.bancofinancas.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import acc.br.bancofinancas.model.Agencia;
-import org.springframework.data.repository.CrudRepository;
-public interface AgenciaRepository extends CrudRepository<Agencia, Integer> {
+
+public interface AgenciaRepository extends JpaRepository<Agencia, Integer> {
 }

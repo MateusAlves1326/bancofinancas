@@ -1,44 +1,37 @@
 package acc.br.bancofinancas.service;
 
-/**
- * Essa classe é responsável por gerenciar as operações relacionadas às agências bancárias.
- * Ela utiliza um AtomicInteger para gerar IDs únicos para cada agência criada e um ConcurrentHashMap
- * para armazenar as agências criadas.
- */
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.stereotype.Service;
 
 import acc.br.bancofinancas.dto.AgenciaResponse;
 import acc.br.bancofinancas.dto.CreateAgenciaRequest;
+import acc.br.bancofinancas.model.Agencia;
+import acc.br.bancofinancas.repository.AgenciaRepository;
 
 @Service
 public class AgenciaService {
 
-    private final AtomicInteger sequence = new AtomicInteger(1);
-    private final Map<Integer, AgenciaResponse> agencias = new ConcurrentHashMap<>();
+    private final AgenciaRepository agenciaRepository;
+
+    public AgenciaService(AgenciaRepository agenciaRepository) {
+        this.agenciaRepository = agenciaRepository;
+    }
 
     public AgenciaResponse createAgencia(CreateAgenciaRequest request) {
-        Integer newId = sequence.getAndIncrement();
+        Agencia agencia = new Agencia();
+        agencia.setName(request.getName());
+        agencia.setAddress(request.getAddress());
+        agencia.setPhone(request.getPhone());
+        agencia.setIdCustomer(request.getIdCustomer());
+
+        Agencia salva = agenciaRepository.save(agencia);
 
         AgenciaResponse response = new AgenciaResponse();
-        response.setIdAgency(newId);
-        response.setName(request.getName());
-        response.setAddress(request.getAddress());
-        response.setPhone(request.getPhone());
-        response.setIdCustomer(request.getIdCustomer());
+        response.setIdAgency(salva.getIdAgency());
+        response.setName(salva.getName());
+        response.setAddress(salva.getAddress());
+        response.setPhone(salva.getPhone());
+        response.setIdCustomer(salva.getIdCustomer());
 
-        agencias.put(newId, response);
         return response;
-
     }
-    /*
-     * Ajuste conforme seu request atual:
-     * se o request tiver idCustomer, use setIdCustomer(request.getIdCustomer())
-     * se tiver idAgencia no request, revise depois porque não é o ideal para
-     * "criar"
-     * response.setIdCustomer(request.getIdCustomer());
-     */
 }
