@@ -1,45 +1,40 @@
-package acc.br.bancofinancas.model;
+package acc.br.bancofinancas.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+/**
+ * AgenciaResponse
+ * essa classe representa a estrutura de dados para a resposta de uma agência bancária.
+ * utilizamos getters e setters para acessar e modificar os campos da classe.
+ * OBS: Id foi substituído por idAgencia para melhor representar a entidade.
+ */
 
-@Entity
-@Table(name = "agencias")
-public class Agencia {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAgency;
-
+public class AgenciaResponse {
     private String name;
-    private String address; 
+    private String address;
     private String phone;
+    private Integer idAgency;
     private Integer idCustomer;
-// Getters
-    public Integer getIdAgency() {
-        return idAgency;
-    }
-  
+
+//getters
     public String getName() {
         return name;
     }
-  
+
     public String getAddress() {
         return address;
     }
-    
+
     public String getPhone() {
         return phone;
+    }
+
+    public Integer getIdAgency() {
+        return idAgency;
     }
 
     public Integer getIdCustomer() {
         return idCustomer;
     }
-
-    // Setters
-    
+//setters
     public void setIdAgency(Integer idAgency) {
         this.idAgency = idAgency;
     }
@@ -59,5 +54,4 @@ public class Agencia {
     public void setIdCustomer(Integer idCustomer) {
         this.idCustomer = idCustomer;
     }
-
 }
