@@ -3,7 +3,6 @@ package acc.br.bancofinancas.repository;
 import org.springframework.data.repository.CrudRepository;
 
 import acc.br.bancofinancas.model.BancoFinancas;
-
 public interface BancoFinancasRepository extends CrudRepository<BancoFinancas, Integer> {
 }
 
