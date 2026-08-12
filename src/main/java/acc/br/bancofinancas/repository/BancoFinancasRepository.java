@@ -2,20 +2,10 @@ package acc.br.bancofinancas.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import acc.br.student.model.Student;
+import acc.br.bancofinancas.model.BancoFinancas;
 
-public interface BancoFinancasRepository {
-
+public interface BancoFinancasRepository extends CrudRepository<BancoFinancas, Integer> {
 }
 
-
-package acc.br.student.repository;
-
-import org.springframework.data.repository.CrudRepository;
-
-import acc.br.student.model.Student;
-
-public interface StudentRepository extends CrudRepository<Student, Integer>
-{
-}
-
+// Avia mais informações sobre o repositório do Banco Finanças, como métodos
+// personalizados para consultas específicas, caso necessário.
