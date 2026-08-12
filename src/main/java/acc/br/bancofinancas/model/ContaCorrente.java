@@ -27,19 +27,17 @@ public class ContaCorrente {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idContaCorrente;
-	@Column(name = "idAgencia", nullable = false, precision = 10)
 	@ManyToOne
     @JoinColumn(name = "idAgencia")
 	private Agencia agencia;
 	@Column(name = "numero", nullable = false, length = 10)
 	private int numero;
-	@Column(name = "idCliente", nullable = false, precision = 10)
+	@Column(name = "saldo", nullable = false, precision = 10, scale = 2)
 	private BigDecimal saldo;
-	@Column(name = "idCliente", nullable = false, precision = 10, scale = 2)
 	@ManyToOne
     @JoinColumn(name = "idCliente")
 	private Cliente cliente;
-	@OneToMany(mappedBy = "contacorrente", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Extrato> Extratos = new ArrayList<>();
 	
 	

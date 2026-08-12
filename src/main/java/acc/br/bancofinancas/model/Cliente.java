@@ -4,12 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 //mark class as an Entity 
@@ -33,9 +28,6 @@ public class Cliente
 	//defining telefone as column name
 	@Column(name = "telefone", nullable = false, length = 20)
 	private String telefone;
-	@OneToMany(mappedBy = "agencia", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Cliente> Clientes = new ArrayList<>();
-	
 	public Cliente() {}
 	
 	public int getIdCliente() {
