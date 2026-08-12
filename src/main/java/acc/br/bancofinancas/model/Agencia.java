@@ -1,10 +1,15 @@
 package acc.br.bancofinancas.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "agencias")
@@ -14,22 +19,25 @@ public class Agencia {
     private Integer idAgency;
 
     private String name;
-    private String address; 
+    private String address;
     private String phone;
     private Integer idCustomer;
-// Getters
+
+    @OneToMany(mappedBy = "agencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ContaCorrente> contas = new ArrayList<>();
+
     public Integer getIdAgency() {
         return idAgency;
     }
-  
+
     public String getName() {
         return name;
     }
-  
+
     public String getAddress() {
         return address;
     }
-    
+
     public String getPhone() {
         return phone;
     }
@@ -38,8 +46,10 @@ public class Agencia {
         return idCustomer;
     }
 
-    // Setters
-    
+    public List<ContaCorrente> getContas() {
+        return contas;
+    }
+
     public void setIdAgency(Integer idAgency) {
         this.idAgency = idAgency;
     }
@@ -60,4 +70,7 @@ public class Agencia {
         this.idCustomer = idCustomer;
     }
 
+    public void setContas(List<ContaCorrente> contas) {
+        this.contas = contas;
+    }
 }
