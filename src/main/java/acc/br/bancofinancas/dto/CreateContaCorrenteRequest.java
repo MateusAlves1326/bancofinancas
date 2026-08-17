@@ -1,28 +1,38 @@
 package acc.br.bancofinancas.dto;
 
-import java.math.BigDecimal;
-
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
-public class CreateContaCorrenteRequest {
-    @NotNull(message = "idAgencia e obrigatorio")
-    private Integer idAgencia;
+import java.math.BigDecimal;
 
-    @NotNull(message = "Numero e obrigatorio")
+public class CreateContaCorrenteRequest {
+    @NotNull
+    private Long clienteId;
+
+    @NotNull
+    private Long agenciaId;
+
+    @NotNull
     private Integer numero;
 
-    @NotNull(message = "Saldo e obrigatorio")
+    @NotNull
+    @DecimalMin(value = "0.00")
     private BigDecimal saldo;
 
-    @NotNull(message = "idCliente e obrigatorio")
-    private Integer idCliente;
-
-    public Integer getIdAgencia() {
-        return idAgencia;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setIdAgencia(Integer idAgencia) {
-        this.idAgencia = idAgencia;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    public Long getAgenciaId() {
+        return agenciaId;
+    }
+
+    public void setAgenciaId(Long agenciaId) {
+        this.agenciaId = agenciaId;
     }
 
     public Integer getNumero() {
@@ -39,13 +49,5 @@ public class CreateContaCorrenteRequest {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
-    }
-
-    public Integer getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
     }
 }

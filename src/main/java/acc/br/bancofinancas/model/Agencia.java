@@ -1,5 +1,6 @@
 package acc.br.bancofinancas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Agencia {
     private String phone;
     private Integer idCustomer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "agencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContaCorrente> contas = new ArrayList<>();
 
