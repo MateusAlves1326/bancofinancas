@@ -1,5 +1,6 @@
 package acc.br.bancofinancas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -36,6 +37,7 @@ public class Extrato {
 	// defining endereco as column name
 	@Column(name = "valorOperacao", nullable = false, precision = 10, scale = 2)
 	private BigDecimal valorOperacao;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_conta_corrente", nullable = false)
 	private ContaCorrente contaCorrente;

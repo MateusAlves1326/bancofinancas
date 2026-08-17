@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
 import acc.br.bancofinancas.model.ContaCorrente;
 import acc.br.bancofinancas.model.Extrato;
@@ -57,6 +58,15 @@ public class OperacaoService {
         extrato.setDataHoraMovimento(LocalDateTime.now());
 
         return extratoRepository.save(extrato);
+    }
+
+    public List<Extrato> obterExtrato(Long contaCorrenteId) {
+        Integer contaId = contaCorrenteId.intValue();
+
+        contaCorrenteRepository.findById(contaId)
+                .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
+
+        return extratoRepository.findByContaCorrente_IdContaCorrenteOrderByDataHoraMovimentoDesc(contaId);
     }
 
     private boolean deveDebitar(Operacao operacao) {

@@ -1,6 +1,7 @@
 package acc.br.bancofinancas.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -144,5 +145,23 @@ class OperacaoServiceTest {
         assertEquals(conta, salvo.getContaCorrente());
         assertEquals(Operacao.TRANSFERENCIA, salvo.getOperacao());
         assertEquals(new BigDecimal("20.00"), salvo.getValorOperacao());
+    }
+
+    @Test
+    void obterExtratoDeveRetornarMovimentacoesDaConta() {
+        ContaCorrente conta = new ContaCorrente();
+        conta.setIdContaCorrente(1);
+
+        Extrato extrato = new Extrato();
+        extrato.setContaCorrente(conta);
+        extrato.setOperacao(Operacao.DEPOSITO);
+        extrato.setValorOperacao(new BigDecimal("25.00"));
+
+        when(extratoRepository.findByContaCorrente_IdContaCorrenteOrderByDataHoraMovimentoDesc(1)).thenReturn(List.of(extrato));
+
+        List<Extrato> retorno = operacaoService.obterExtrato(1L);
+
+        assertEquals(1, retorno.size());
+        assertEquals(extrato, retorno.get(0));
     }
 }

@@ -1,9 +1,12 @@
 package acc.br.bancofinancas.Controller;
 
 
+import acc.br.bancofinancas.dto.ContaCorrenteResponse;
 import acc.br.bancofinancas.dto.CreateContaCorrenteRequest;
 import acc.br.bancofinancas.service.ContaCorrenteService;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +24,9 @@ public class ContaCorrenteController {
     }
 
     @PostMapping
-    public void create(@Valid @RequestBody CreateContaCorrenteRequest request) {
-        contaCorrenteService.createContaCorrente(request);
+    public ResponseEntity<ContaCorrenteResponse> create(@Valid @RequestBody CreateContaCorrenteRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(contaCorrenteService.createContaCorrente(request));
     }
-
-    
 
 }

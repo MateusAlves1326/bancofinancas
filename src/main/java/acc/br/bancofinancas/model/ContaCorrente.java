@@ -1,5 +1,6 @@
 package acc.br.bancofinancas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ContaCorrente {
     @JoinColumn(name = "idCliente", nullable = false)
     private Cliente cliente;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Extrato> extratos = new ArrayList<>();
 
