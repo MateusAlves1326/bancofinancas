@@ -10,9 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "cliente")
 public class Cliente {
