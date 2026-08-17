@@ -3,6 +3,7 @@ package acc.br.bancofinancas.service;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
@@ -67,6 +68,27 @@ public class OperacaoService {
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
 
         return extratoRepository.findByContaCorrente_IdContaCorrenteOrderByDataHoraMovimentoDesc(contaId);
+    }
+
+    public List<Extrato> obterExtratoPorPeriodo(Long contaCorrenteId, LocalDate dataInicial, LocalDate dataFinal) {
+        Integer contaId = contaCorrenteId.intValue();
+
+        contaCorrenteRepository.findById(contaId)
+                .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
+
+        if (dataInicial == null || dataFinal == null) {
+            return obterExtrato(contaCorrenteId);
+        }
+
+        if (dataFinal.isBefore(dataInicial)) {
+            throw new IllegalArgumentException("A data final deve ser maior ou igual à data inicial");
+        }
+
+        LocalDateTime inicio = dataInicial.atStartOfDay();
+        LocalDateTime fim = dataFinal.plusDays(1).atStartOfDay().minusNanos(1);
+
+        return extratoRepository.findByContaCorrente_IdContaCorrenteAndDataHoraMovimentoBetweenOrderByDataHoraMovimentoDesc(
+                contaId, inicio, fim);
     }
 
     private boolean deveDebitar(Operacao operacao) {

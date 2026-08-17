@@ -1,5 +1,7 @@
 package acc.br.bancofinancas.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import acc.br.bancofinancas.dto.AgenciaResponse;
@@ -32,6 +34,29 @@ public class AgenciaService {
         response.setPhone(salva.getPhone());
         response.setIdCustomer(salva.getIdCustomer());
 
+        return response;
+    }
+
+    public List<AgenciaResponse> listarAgencias(String localizacao) {
+        List<Agencia> agencias;
+
+        if (localizacao == null || localizacao.isBlank()) {
+            agencias = agenciaRepository.findAllByOrderByNameAsc();
+        } else {
+            agencias = agenciaRepository.findByNameContainingIgnoreCaseOrAddressContainingIgnoreCaseOrderByNameAsc(
+                    localizacao, localizacao);
+        }
+
+        return agencias.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    private AgenciaResponse toResponse(Agencia agencia) {
+        AgenciaResponse response = new AgenciaResponse();
+        response.setIdAgency(agencia.getIdAgency());
+        response.setName(agencia.getName());
+        response.setAddress(agencia.getAddress());
+        response.setPhone(agencia.getPhone());
+        response.setIdCustomer(agencia.getIdCustomer());
         return response;
     }
 }

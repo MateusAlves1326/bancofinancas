@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import acc.br.bancofinancas.dto.ClienteResponse;
 import acc.br.bancofinancas.dto.CreateClienteRequest;
 import acc.br.bancofinancas.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/clientes")
+@Tag(name = "Clientes", description = "Cadastro e gerenciamento de clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -22,6 +25,7 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
+    @Operation(summary = "Cadastrar cliente", description = "Cria um novo cliente no sistema com nome, CPF, telefone e e-mail.")
     @PostMapping
     public ResponseEntity<ClienteResponse> create(@Valid @RequestBody CreateClienteRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(request));

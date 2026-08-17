@@ -43,7 +43,7 @@ class OperacaoControllerTest {
         Extrato extrato = new Extrato();
         when(operacaoService.obterExtrato(1L)).thenReturn(List.of(extrato));
 
-        List<Extrato> retorno = operacaoController.obterExtrato(1L);
+        List<Extrato> retorno = operacaoController.obterExtrato(1L, null, null);
 
         assertEquals(1, retorno.size());
         assertEquals(extrato, retorno.get(0));
