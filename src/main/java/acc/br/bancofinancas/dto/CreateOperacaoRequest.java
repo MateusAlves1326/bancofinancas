@@ -11,17 +11,35 @@ public class CreateOperacaoRequest {
     @NotNull
     private Long contaCorrenteId;
 
+    private Long contaDestinoId;
+
+    private Long extratoOrigemId;
+
+    private String motivo;
+
     @NotNull
     private Operacao operacao;
-    
+
     @NotNull
     @DecimalMin(value = "0.01")
     private BigDecimal valorOperacao;
 
-
     public Long getContaCorrenteId() {
         return contaCorrenteId;
     }
+
+    public Long getContaDestinoId() {
+        return contaDestinoId;
+    }
+
+    public Long getExtratoOrigemId() {
+        return extratoOrigemId;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
     public Operacao getOperacao() {
         return operacao;
     }
@@ -34,6 +52,18 @@ public class CreateOperacaoRequest {
         this.contaCorrenteId = contaCorrenteId;
     }
 
+    public void setContaDestinoId(Long contaDestinoId) {
+        this.contaDestinoId = contaDestinoId;
+    }
+
+    public void setExtratoOrigemId(Long extratoOrigemId) {
+        this.extratoOrigemId = extratoOrigemId;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
     public void setOperacao(Operacao operacao) {
         this.operacao = operacao;
     }
@@ -41,6 +71,4 @@ public class CreateOperacaoRequest {
     public void setValorOperacao(BigDecimal valorOperacao) {
         this.valorOperacao = valorOperacao;
     }
-
-
 }

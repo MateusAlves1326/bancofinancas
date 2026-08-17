@@ -23,7 +23,7 @@ class OperacaoEnumTest {
         assertTrue(Arrays.asList(valores).contains(Operacao.TRANSFERENCIA));
         assertTrue(Arrays.asList(valores).contains(Operacao.PAGAMENTO));
         assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_SAQUE));
-        assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_PAGTO));
+        assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_PAGAMENTO));
         assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_TRANSF));
     }
 }
