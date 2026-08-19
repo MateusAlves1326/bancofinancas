@@ -1,14 +1,17 @@
-{
-  "properties": [
-    {
-      "name": "security.jwt.secret",
-      "type": "java.lang.String",
-      "description": "Secret key used to sign JWT tokens."
-    },
-    {
-      "name": "security.jwt.expiration-seconds",
-      "type": "java.lang.Long",
-      "description": "JWT expiration time in seconds."
-    }
-  ]
-}
+{"properties": [
+  {
+    "name": "security.jwt.secret",
+    "type": "java.lang.String",
+    "description": "Secret key used to sign JWT tokens."
+  },
+  {
+    "name": "security.jwt.expiration-seconds",
+    "type": "java.lang.Long",
+    "description": "JWT expiration time in seconds."
+  },
+  {
+    "name": "app.carga-inicial.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'app.carga-inicial.enabled'"
+  }
+]}

@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import acc.br.bancofinancas.dto.ContaCorrenteResponse;
 import acc.br.bancofinancas.dto.CreateContaCorrenteRequest;
 import acc.br.bancofinancas.service.ContaCorrenteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
+@SecurityRequirement(name = "bearerAuth")
 public class ContaCorrenteController {
 
     private final ContaCorrenteService contaCorrenteService;

@@ -18,12 +18,14 @@ class ContaOperacaoDtoTest {
         dto.setSaldo(new BigDecimal("100.00"));
         dto.setClienteId(11L);
         dto.setAgenciaId(22L);
+        dto.setBloqueada(true);
 
         assertEquals(3L, dto.getId());
         assertEquals(1234, dto.getNumero());
         assertEquals(new BigDecimal("100.00"), dto.getSaldo());
         assertEquals(11L, dto.getClienteId());
         assertEquals(22L, dto.getAgenciaId());
+        assertEquals(true, dto.isBloqueada());
     }
 
     @Test

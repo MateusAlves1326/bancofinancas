@@ -48,6 +48,7 @@ public class OperacaoService {
                         "Conta corrente não encontrada"));
 
         validarPermissaoConta(conta, request.getClienteId());
+        validarContaDesbloqueada(conta);
 
         if (request.getOperacao() == Operacao.TRANSFERENCIA && request.getContaDestinoId() != null) {
             return transferir(request);
@@ -83,14 +84,35 @@ public class OperacaoService {
     }
 
     @Transactional
+    public Extrato creditarSaldoManual(Long contaCorrenteId, Long clienteId, BigDecimal valor) {
+        if (valor == null || valor.signum() <= 0) {
+            throw new IllegalArgumentException("O valor do crédito manual deve ser maior que zero");
+        }
+
+        AuthenticatedUser user = getAuthenticatedUser();
+        if (user == null || user.getRole() != Role.AGENCIA) {
+            throw new IllegalArgumentException("Somente usuários da agência podem adicionar saldo manualmente");
+        }
+
+        ContaCorrente conta = contaCorrenteRepository.findById(contaCorrenteId.intValue())
+                .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
+
+        validarPermissaoConta(conta, clienteId);
+        return processarMovimentacaoConta(conta, valor, Operacao.CREDITO_MANUAL, null);
+    }
+
+    @Transactional
     public Extrato transferir(CreateOperacaoRequest request) {
         ContaCorrente origem = contaCorrenteRepository.findById(request.getContaCorrenteId().intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente de origem não encontrada"));
 
         validarPermissaoConta(origem, request.getClienteId());
+        validarContaDesbloqueada(origem);
 
         ContaCorrente destino = contaCorrenteRepository.findById(request.getContaDestinoId().intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente de destino não encontrada"));
+
+        validarContaDesbloqueada(destino);
 
         if (origem.getIdContaCorrente() == destino.getIdContaCorrente()) {
             throw new IllegalArgumentException("A conta de origem e destino devem ser diferentes");
@@ -331,6 +353,12 @@ public class OperacaoService {
             if (conta.getCliente().getIdCustomer() != clienteIdInformado.intValue()) {
                 throw new IllegalArgumentException("clienteId informado não corresponde à conta");
             }
+        }
+    }
+
+    private void validarContaDesbloqueada(ContaCorrente conta) {
+        if (conta.isBloqueada()) {
+            throw new IllegalArgumentException("Conta corrente bloqueada");
         }
     }
 

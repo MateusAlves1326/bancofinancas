@@ -14,12 +14,14 @@ import acc.br.bancofinancas.dto.AgenciaResponse;
 import acc.br.bancofinancas.dto.CreateAgenciaRequest;
 import acc.br.bancofinancas.service.AgenciaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/agencias")
 @Tag(name = "Agências", description = "Cadastro e consulta de agências disponíveis")
+@SecurityRequirement(name = "bearerAuth")
 public class AgenciaController {
 
     private final AgenciaService agenciaService;

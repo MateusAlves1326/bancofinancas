@@ -100,4 +100,28 @@ class ContaCorrenteServiceTest {
         assertEquals(1L, response.getClienteId());
         assertEquals(2L, response.getAgenciaId());
     }
+
+    @Test
+    void atualizarBloqueioDevePersistirNovoEstadoDaConta() {
+        Cliente cliente = new Cliente();
+        cliente.setIdCustomer(1);
+
+        Agencia agencia = new Agencia();
+        agencia.setIdAgency(2);
+
+        ContaCorrente conta = new ContaCorrente();
+        conta.setIdContaCorrente(99);
+        conta.setNumero(1234);
+        conta.setSaldo(new BigDecimal("100.00"));
+        conta.setCliente(cliente);
+        conta.setAgencia(agencia);
+
+        when(contaCorrenteRepository.findById(99)).thenReturn(Optional.of(conta));
+        when(contaCorrenteRepository.save(conta)).thenReturn(conta);
+
+        ContaCorrenteResponse response = contaCorrenteService.atualizarBloqueio(99L, 1L, true);
+
+        assertEquals(true, conta.isBloqueada());
+        assertEquals(true, response.isBloqueada());
+    }
 }

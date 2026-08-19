@@ -34,6 +34,9 @@ public class ContaCorrente {
     @Column(name = "saldo", nullable = false, precision = 10, scale = 2)
     private BigDecimal saldo;
 
+    @Column(name = "bloqueada", nullable = false)
+    private boolean bloqueada;
+
     @ManyToOne
     @JoinColumn(name = "idCliente", nullable = false)
     private Cliente cliente;
@@ -72,6 +75,14 @@ public class ContaCorrente {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public boolean isBloqueada() {
+        return bloqueada;
+    }
+
+    public void setBloqueada(boolean bloqueada) {
+        this.bloqueada = bloqueada;
     }
 
     public Cliente getCliente() {

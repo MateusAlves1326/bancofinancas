@@ -8,6 +8,7 @@ public class ContaCorrenteResponse {
     private BigDecimal saldo;
     private Long clienteId;
     private Long agenciaId;
+    private boolean bloqueada;
     public Long getId() {
         return id;
     }
@@ -28,6 +29,10 @@ public class ContaCorrenteResponse {
         return saldo;
     }
 
+    public boolean isBloqueada() {
+        return bloqueada;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,5 +51,9 @@ public class ContaCorrenteResponse {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public void setBloqueada(boolean bloqueada) {
+        this.bloqueada = bloqueada;
     }
 }

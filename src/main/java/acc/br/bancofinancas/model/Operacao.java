@@ -4,6 +4,7 @@ public enum Operacao {
 
     SAQUE,
     DEPOSITO,
+    CREDITO_MANUAL,
     TRANSFERENCIA,
     PAGAMENTO,
     COMPRA,

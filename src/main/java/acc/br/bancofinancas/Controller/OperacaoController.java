@@ -8,6 +8,7 @@ import acc.br.bancofinancas.dto.SolicitacaoReversaoResponse;
 import acc.br.bancofinancas.model.Extrato;
 import acc.br.bancofinancas.model.Operacao;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/operacoes")
 @Tag(name = "Operações", description = "Movimentações financeiras da conta corrente")
+@SecurityRequirement(name = "bearerAuth")
 public class OperacaoController {
     private final OperacaoService operacaoService;
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,13 +16,19 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
+import acc.br.bancofinancas.model.Agencia;
+import acc.br.bancofinancas.model.Cliente;
 import acc.br.bancofinancas.model.ContaCorrente;
 import acc.br.bancofinancas.model.Extrato;
 import acc.br.bancofinancas.model.Operacao;
+import acc.br.bancofinancas.model.Role;
 import acc.br.bancofinancas.repository.ContaCorrenteRepository;
 import acc.br.bancofinancas.repository.ExtratoRepository;
+import acc.br.bancofinancas.security.AuthenticatedUser;
 
 @ExtendWith(MockitoExtension.class)
 class OperacaoServiceTest {
@@ -34,6 +41,11 @@ class OperacaoServiceTest {
 
     @InjectMocks
     private OperacaoService operacaoService;
+
+    @AfterEach
+    void limparContextoDeSeguranca() {
+        SecurityContextHolder.clearContext();
+    }
 
     @Test
     void criarOperacaoDeveLancarExcecaoQuandoContaNaoEncontrada() {
@@ -106,6 +118,25 @@ class OperacaoServiceTest {
     }
 
     @Test
+    void criarOperacaoDeveLancarExcecaoQuandoContaBloqueada() {
+        CreateOperacaoRequest request = new CreateOperacaoRequest();
+        request.setContaCorrenteId(1L);
+        request.setOperacao(Operacao.DEPOSITO);
+        request.setValorOperacao(new BigDecimal("50.00"));
+
+        ContaCorrente conta = new ContaCorrente();
+        conta.setSaldo(new BigDecimal("100.00"));
+        conta.setBloqueada(true);
+
+        when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(conta));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> operacaoService.criarOperacao(request));
+
+        assertEquals("Conta corrente bloqueada", ex.getMessage());
+    }
+
+    @Test
     void criarOperacaoDeveAssumirSaldoZeroQuandoNulo() {
         CreateOperacaoRequest request = new CreateOperacaoRequest();
         request.setContaCorrenteId(1L);
@@ -121,6 +152,34 @@ class OperacaoServiceTest {
         operacaoService.criarOperacao(request);
 
         assertEquals(new BigDecimal("10.00"), conta.getSaldo());
+    }
+
+    @Test
+    void creditarSaldoManualDeveRegistrarCreditoParaAgenciaDaConta() {
+        Agencia agencia = new Agencia();
+        agencia.setIdAgency(2);
+
+        Cliente cliente = new Cliente();
+        cliente.setIdCustomer(1);
+
+        ContaCorrente conta = new ContaCorrente();
+        conta.setIdContaCorrente(1);
+        conta.setAgencia(agencia);
+        conta.setCliente(cliente);
+        conta.setSaldo(new BigDecimal("100.00"));
+
+        AuthenticatedUser usuario = new AuthenticatedUser("agente", "senha", Role.AGENCIA, null, 2);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities()));
+
+        when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(conta));
+        when(extratoRepository.save(any(Extrato.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Extrato extrato = operacaoService.creditarSaldoManual(1L, 1L, new BigDecimal("50.00"));
+
+        assertEquals(new BigDecimal("150.00"), conta.getSaldo());
+        assertEquals(Operacao.CREDITO_MANUAL, extrato.getOperacao());
+        assertEquals(new BigDecimal("50.00"), extrato.getValorOperacao());
     }
 
     @Test
