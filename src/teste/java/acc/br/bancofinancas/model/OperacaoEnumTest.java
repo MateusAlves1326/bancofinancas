@@ -18,12 +18,16 @@ class OperacaoEnumTest {
     void valuesDeveConterTodosOsItensEsperados() {
         Operacao[] valores = Operacao.values();
 
-        assertEquals(7, valores.length);
+        assertEquals(10, valores.length);
+        assertTrue(Arrays.asList(valores).contains(Operacao.SAQUE));
         assertTrue(Arrays.asList(valores).contains(Operacao.DEPOSITO));
         assertTrue(Arrays.asList(valores).contains(Operacao.TRANSFERENCIA));
         assertTrue(Arrays.asList(valores).contains(Operacao.PAGAMENTO));
+        assertTrue(Arrays.asList(valores).contains(Operacao.COMPRA));
         assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_SAQUE));
+        assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_DEPOSITO));
         assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_PAGAMENTO));
+        assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_COMPRA));
         assertTrue(Arrays.asList(valores).contains(Operacao.ESTORNO_TRANSF));
     }
 }

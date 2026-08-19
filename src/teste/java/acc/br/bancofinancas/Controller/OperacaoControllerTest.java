@@ -41,12 +41,12 @@ class OperacaoControllerTest {
     @Test
     void obterExtratoDeveRetornarListaDoService() {
         Extrato extrato = new Extrato();
-        when(operacaoService.obterExtrato(1L)).thenReturn(List.of(extrato));
+        when(operacaoService.obterExtrato(1L, null)).thenReturn(List.of(extrato));
 
-        List<Extrato> retorno = operacaoController.obterExtrato(1L, null, null);
+        List<Extrato> retorno = operacaoController.obterExtrato(1L, null, null, null);
 
         assertEquals(1, retorno.size());
         assertEquals(extrato, retorno.get(0));
-        verify(operacaoService).obterExtrato(1L);
+        verify(operacaoService).obterExtrato(1L, null);
     }
 }

@@ -157,6 +157,7 @@ class OperacaoServiceTest {
         extrato.setOperacao(Operacao.DEPOSITO);
         extrato.setValorOperacao(new BigDecimal("25.00"));
 
+        when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(conta));
         when(extratoRepository.findByContaCorrente_IdContaCorrenteOrderByDataHoraMovimentoDesc(1)).thenReturn(List.of(extrato));
 
         List<Extrato> retorno = operacaoService.obterExtrato(1L);

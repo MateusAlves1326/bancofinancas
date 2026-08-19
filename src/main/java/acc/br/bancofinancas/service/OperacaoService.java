@@ -1,29 +1,42 @@
 package acc.br.bancofinancas.service;
 
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
+import acc.br.bancofinancas.dto.DecisaoReversaoResponse;
+import acc.br.bancofinancas.dto.SolicitacaoReversaoResponse;
 import acc.br.bancofinancas.model.ContaCorrente;
 import acc.br.bancofinancas.model.Extrato;
 import acc.br.bancofinancas.model.Operacao;
+import acc.br.bancofinancas.model.Role;
+import acc.br.bancofinancas.model.SolicitacaoReversao;
+import acc.br.bancofinancas.model.StatusSolicitacaoReversao;
 import acc.br.bancofinancas.repository.ContaCorrenteRepository;
 import acc.br.bancofinancas.repository.ExtratoRepository;
-import org.springframework.transaction.annotation.Transactional;
+import acc.br.bancofinancas.repository.SolicitacaoReversaoRepository;
+import acc.br.bancofinancas.security.AuthenticatedUser;
 
 @Service
 public class OperacaoService {
     private final ExtratoRepository extratoRepository;
     private final ContaCorrenteRepository contaCorrenteRepository;
+    private final SolicitacaoReversaoRepository solicitacaoReversaoRepository;
     
     public OperacaoService(
-        ExtratoRepository extratoRepository, 
-        ContaCorrenteRepository contaCorrenteRepository) {
-    this.extratoRepository = extratoRepository;
-    this.contaCorrenteRepository = contaCorrenteRepository;
+        ExtratoRepository extratoRepository,
+        ContaCorrenteRepository contaCorrenteRepository,
+        SolicitacaoReversaoRepository solicitacaoReversaoRepository) {
+        this.extratoRepository = extratoRepository;
+        this.contaCorrenteRepository = contaCorrenteRepository;
+        this.solicitacaoReversaoRepository = solicitacaoReversaoRepository;
     }
     
     @Transactional
@@ -34,6 +47,8 @@ public class OperacaoService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Conta corrente não encontrada"));
 
+        validarPermissaoConta(conta, request.getClienteId());
+
         if (request.getOperacao() == Operacao.TRANSFERENCIA && request.getContaDestinoId() != null) {
             return transferir(request);
         }
@@ -43,7 +58,7 @@ public class OperacaoService {
                 || request.getOperacao() == Operacao.ESTORNO_COMPRA
                 || request.getOperacao() == Operacao.ESTORNO_SAQUE
                 || request.getOperacao() == Operacao.ESTORNO_TRANSF) {
-            return solicitarReversao(request);
+            throw new IllegalArgumentException("Use o endpoint de solicitação de reversão para operações de estorno");
         }
 
         return processarMovimentacaoConta(conta, request.getValorOperacao(), request.getOperacao(), null);
@@ -72,6 +87,8 @@ public class OperacaoService {
         ContaCorrente origem = contaCorrenteRepository.findById(request.getContaCorrenteId().intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente de origem não encontrada"));
 
+        validarPermissaoConta(origem, request.getClienteId());
+
         ContaCorrente destino = contaCorrenteRepository.findById(request.getContaDestinoId().intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente de destino não encontrada"));
 
@@ -92,7 +109,7 @@ public class OperacaoService {
     }
 
     @Transactional
-    public Extrato solicitarReversao(CreateOperacaoRequest request) {
+    public SolicitacaoReversaoResponse solicitarReversao(CreateOperacaoRequest request) {
         if (request.getExtratoOrigemId() == null) {
             throw new IllegalArgumentException("É necessário informar o extrato original para solicitar reversão");
         }
@@ -101,6 +118,8 @@ public class OperacaoService {
                 .orElseThrow(() -> new IllegalArgumentException("Extrato original não encontrado"));
 
         ContaCorrente conta = extratoOriginal.getContaCorrente();
+
+        validarPermissaoConta(conta, request.getClienteId());
 
         if (conta.getIdContaCorrente() != request.getContaCorrenteId().intValue()) {
             throw new IllegalArgumentException("O extrato não pertence à conta informada");
@@ -113,34 +132,94 @@ public class OperacaoService {
             throw new IllegalArgumentException("Essa operação não pode ser revertida");
         }
 
-        processarMovimentacaoConta(conta, valor, operacaoReversa, null);
+        SolicitacaoReversao solicitacao = new SolicitacaoReversao();
+        solicitacao.setExtratoOrigem(extratoOriginal);
+        solicitacao.setContaCorrente(conta);
+        solicitacao.setValor(valor);
+        solicitacao.setOperacaoReversa(operacaoReversa);
+        solicitacao.setStatus(StatusSolicitacaoReversao.PENDENTE);
+        solicitacao.setMotivo(request.getMotivo());
+        solicitacao.setDataSolicitacao(LocalDateTime.now());
 
-        Extrato reversao = new Extrato();
-        reversao.setContaCorrente(conta);
-        reversao.setOperacao(operacaoReversa);
-        reversao.setValorOperacao(valor);
-        reversao.setDataHoraMovimento(LocalDateTime.now());
+        SolicitacaoReversao salva = solicitacaoReversaoRepository.save(solicitacao);
+        return toSolicitacaoResponse(salva);
+    }
 
-        return extratoRepository.save(reversao);
+    @Transactional
+    public DecisaoReversaoResponse decidirSolicitacaoReversao(Long solicitacaoId, Long clienteId, boolean aprovar) {
+        AuthenticatedUser user = getAuthenticatedUser();
+        if (user == null || user.getRole() != Role.AGENCIA) {
+            throw new IllegalArgumentException("Somente usuários da agência podem decidir solicitações de reversão");
+        }
+
+        SolicitacaoReversao solicitacao = solicitacaoReversaoRepository.findById(solicitacaoId.intValue())
+                .orElseThrow(() -> new IllegalArgumentException("Solicitação de reversão não encontrada"));
+
+        if (solicitacao.getStatus() != StatusSolicitacaoReversao.PENDENTE) {
+            throw new IllegalArgumentException("Solicitação de reversão já foi decidida");
+        }
+
+        ContaCorrente conta = solicitacao.getContaCorrente();
+        validarPermissaoConta(conta, clienteId);
+
+        if (!clienteId.equals(conta.getCliente().getIdCustomer() * 1L)) {
+            throw new IllegalArgumentException("Cliente informado não corresponde ao titular da conta");
+        }
+
+        solicitacao.setDataDecisao(LocalDateTime.now());
+
+        DecisaoReversaoResponse response = new DecisaoReversaoResponse();
+        response.setSolicitacaoId(solicitacaoId);
+
+        if (!aprovar) {
+            solicitacao.setStatus(StatusSolicitacaoReversao.RECUSADA);
+            solicitacaoReversaoRepository.save(solicitacao);
+
+            response.setStatus(StatusSolicitacaoReversao.RECUSADA);
+            response.setMensagem("Solicitação de reversão recusada pela agência");
+            return response;
+        }
+
+        Extrato reversao = processarMovimentacaoConta(conta, solicitacao.getValor(), solicitacao.getOperacaoReversa(), null);
+        solicitacao.setStatus(StatusSolicitacaoReversao.APROVADA);
+        solicitacaoReversaoRepository.save(solicitacao);
+
+        response.setStatus(StatusSolicitacaoReversao.APROVADA);
+        response.setExtratoReversaoId(reversao.getIdExtrato() == null ? null : reversao.getIdExtrato().longValue());
+        response.setMensagem("Solicitação de reversão aprovada");
+        return response;
     }
 
     public List<Extrato> obterExtrato(Long contaCorrenteId) {
+        return obterExtrato(contaCorrenteId, null);
+    }
+
+    public List<Extrato> obterExtrato(Long contaCorrenteId, Long clienteId) {
         Integer contaId = contaCorrenteId.intValue();
 
-        contaCorrenteRepository.findById(contaId)
+        ContaCorrente conta = contaCorrenteRepository.findById(contaId)
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
+
+        validarPermissaoConta(conta, clienteId);
 
         return extratoRepository.findByContaCorrente_IdContaCorrenteOrderByDataHoraMovimentoDesc(contaId);
     }
 
     public List<Extrato> obterExtratoPorPeriodo(Long contaCorrenteId, LocalDate dataInicial, LocalDate dataFinal) {
+        return obterExtratoPorPeriodo(contaCorrenteId, dataInicial, dataFinal, null);
+    }
+
+    public List<Extrato> obterExtratoPorPeriodo(Long contaCorrenteId, LocalDate dataInicial, LocalDate dataFinal,
+            Long clienteId) {
         Integer contaId = contaCorrenteId.intValue();
 
-        contaCorrenteRepository.findById(contaId)
+        ContaCorrente conta = contaCorrenteRepository.findById(contaId)
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
 
+        validarPermissaoConta(conta, clienteId);
+
         if (dataInicial == null || dataFinal == null) {
-            return obterExtrato(contaCorrenteId);
+            return obterExtrato(contaCorrenteId, clienteId);
         }
 
         if (dataFinal.isBefore(dataInicial)) {
@@ -152,6 +231,19 @@ public class OperacaoService {
 
         return extratoRepository.findByContaCorrente_IdContaCorrenteAndDataHoraMovimentoBetweenOrderByDataHoraMovimentoDesc(
                 contaId, inicio, fim);
+    }
+
+    private SolicitacaoReversaoResponse toSolicitacaoResponse(SolicitacaoReversao solicitacao) {
+        SolicitacaoReversaoResponse response = new SolicitacaoReversaoResponse();
+        response.setSolicitacaoId(solicitacao.getId().longValue());
+        response.setContaCorrenteId((long) solicitacao.getContaCorrente().getIdContaCorrente());
+        response.setClienteId((long) solicitacao.getContaCorrente().getCliente().getIdCustomer());
+        response.setValor(solicitacao.getValor());
+        response.setOperacaoReversa(solicitacao.getOperacaoReversa());
+        response.setStatus(solicitacao.getStatus());
+        response.setMotivo(solicitacao.getMotivo());
+        response.setDataSolicitacao(solicitacao.getDataSolicitacao());
+        return response;
     }
 
     private Extrato processarMovimentacaoConta(ContaCorrente conta, BigDecimal valor, Operacao operacao, ContaCorrente contaDestino) {
@@ -206,5 +298,47 @@ public class OperacaoService {
             return Operacao.ESTORNO_TRANSF;
         }
         return null;
+    }
+
+    private void validarPermissaoConta(ContaCorrente conta, Long clienteIdInformado) {
+        AuthenticatedUser user = getAuthenticatedUser();
+
+        // Permite chamadas internas/testes sem contexto de segurança.
+        if (user == null) {
+            return;
+        }
+
+        if (user.getRole() == Role.CLIENTE) {
+            if (user.getClienteId() == null) {
+                throw new IllegalArgumentException("Usuário cliente sem vínculo de cliente");
+            }
+            if (conta.getCliente().getIdCustomer() != user.getClienteId()) {
+                throw new IllegalArgumentException("Cliente só pode operar a própria conta");
+            }
+            return;
+        }
+
+        if (user.getRole() == Role.AGENCIA) {
+            if (user.getAgenciaId() == null) {
+                throw new IllegalArgumentException("Usuário agência sem vínculo de agência");
+            }
+            if (conta.getAgencia().getIdAgency() != user.getAgenciaId()) {
+                throw new IllegalArgumentException("Agência só pode operar contas da própria agência");
+            }
+            if (clienteIdInformado == null) {
+                throw new IllegalArgumentException("Agência deve informar clienteId");
+            }
+            if (conta.getCliente().getIdCustomer() != clienteIdInformado.intValue()) {
+                throw new IllegalArgumentException("clienteId informado não corresponde à conta");
+            }
+        }
+    }
+
+    private AuthenticatedUser getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !(authentication.getPrincipal() instanceof AuthenticatedUser user)) {
+            return null;
+        }
+        return user;
     }
 }
