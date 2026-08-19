@@ -1,33 +1,49 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
 
-### STS ###
-.apt_generated
+# Java / Maven / Spring Boot
+target/
+build/
+HELP.md
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse / Spring Tools Suite
 .classpath
 .factorypath
 .project
-.settings
+.settings/
+.apt_generated/
 .springBeans
-.sts4-cache
+.sts4-cache/
 
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# Frontend / Node.js
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/.vite/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Variáveis de ambiente locais
+.env
+.env.*
+!.env.example
+
+# VS Code
 .vscode/
