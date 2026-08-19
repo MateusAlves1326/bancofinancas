@@ -2,6 +2,8 @@ package acc.br.bancofinancas.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import acc.br.bancofinancas.dto.ClienteResponse;
 import acc.br.bancofinancas.dto.CreateClienteRequest;
 import acc.br.bancofinancas.model.Cliente;
@@ -29,13 +31,22 @@ public class ClienteService {
 
         Cliente salvo = clienteRepository.save(cliente);
 
-        ClienteResponse response = new ClienteResponse();
-        response.setIdCustomer(salvo.getIdCustomer());
-        response.setNome(salvo.getNome());
-        response.setCpf(salvo.getCpf());
-        response.setEmail(salvo.getEmail());
-        response.setTelefone(salvo.getTelefone());
+        return toResponse(salvo);
+    }
 
+    public List<ClienteResponse> findAll() {
+        return clienteRepository.findAll().stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    private ClienteResponse toResponse(Cliente cliente) {
+        ClienteResponse response = new ClienteResponse();
+        response.setIdCustomer(cliente.getIdCustomer());
+        response.setNome(cliente.getNome());
+        response.setCpf(cliente.getCpf());
+        response.setEmail(cliente.getEmail());
+        response.setTelefone(cliente.getTelefone());
         return response;
     }
 }

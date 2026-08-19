@@ -62,7 +62,8 @@ public class AgenteController {
     public ContaCorrenteResponse atualizarBloqueio(
             @PathVariable Long contaId,
             @Valid @RequestBody AtualizarBloqueioContaRequest request) {
-        return contaCorrenteService.atualizarBloqueio(contaId, request.getClienteId(), request.getBloqueada());
+        return contaCorrenteService.atualizarBloqueio(
+            contaId, request.getClienteId(), request.getBloqueada(), request.getMotivo());
     }
 
     @PostMapping("/contas/{contaId}/saldo")

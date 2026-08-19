@@ -119,7 +119,8 @@ class ContaCorrenteServiceTest {
         when(contaCorrenteRepository.findById(99)).thenReturn(Optional.of(conta));
         when(contaCorrenteRepository.save(conta)).thenReturn(conta);
 
-        ContaCorrenteResponse response = contaCorrenteService.atualizarBloqueio(99L, 1L, true);
+        ContaCorrenteResponse response = contaCorrenteService.atualizarBloqueio(
+            99L, 1L, true, "Suspeita de uso indevido");
 
         assertEquals(true, conta.isBloqueada());
         assertEquals(true, response.isBloqueada());

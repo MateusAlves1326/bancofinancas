@@ -2,6 +2,7 @@ package acc.br.bancofinancas.Controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,8 @@ import acc.br.bancofinancas.service.ContaCorrenteService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 public class ContaCorrenteController {
@@ -20,6 +23,11 @@ public class ContaCorrenteController {
 
     public ContaCorrenteController(ContaCorrenteService contaCorrenteService) {
         this.contaCorrenteService = contaCorrenteService;
+    }
+
+    @GetMapping("/contas")
+    public ResponseEntity<List<ContaCorrenteResponse>> findAll() {
+        return ResponseEntity.ok(contaCorrenteService.findAll());
     }
 
     @PostMapping("/cadastrocontacorrente")

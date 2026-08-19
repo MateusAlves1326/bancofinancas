@@ -1,0 +1,146 @@
+.modal-backdrop {
+    position: fixed;
+    z-index: 20;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(18, 48, 74, 0.58);
+}
+
+.conta-modal {
+    width: min(100%, 500px);
+    padding: 28px;
+    border-top: 4px solid #bb7454;
+    color: #172b4d;
+    background: #fffdf9;
+    box-shadow: 0 22px 60px rgba(18, 48, 74, 0.25);
+}
+
+.conta-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.conta-modal-eyebrow {
+    margin: 0 0 8px;
+    color: #bb7454;
+    font: 700 11px Arial, sans-serif;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.conta-modal h2 {
+    margin: 0;
+    font: 400 32px/1.1 Georgia, 'Times New Roman', serif;
+}
+
+.modal-close-button {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    color: #607080;
+    background: transparent;
+    font-size: 26px;
+    line-height: 1;
+}
+
+.modal-close-button:hover {
+    color: #172b4d;
+}
+
+.conta-modal-description {
+    margin: 24px 0;
+    color: #607080;
+    font: 14px/1.5 Arial, sans-serif;
+}
+
+.conta-modal form {
+    display: grid;
+    gap: 9px;
+}
+
+.conta-modal label {
+    color: #3f5369;
+    font: 700 12px Arial, sans-serif;
+}
+
+.conta-modal textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px 14px;
+    border: 1px solid #c9c3ba;
+    border-radius: 3px;
+    outline: none;
+    resize: vertical;
+    color: #172b4d;
+    background: #fff;
+    font: 14px/1.5 Arial, sans-serif;
+}
+
+.conta-modal textarea:focus {
+    border-color: #bb7454;
+    box-shadow: 0 0 0 3px rgba(187, 116, 84, 0.14);
+}
+
+.motivo-counter {
+    justify-self: end;
+    color: #8a8b88;
+    font: 11px Arial, sans-serif;
+}
+
+.conta-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.modal-cancel-button,
+.modal-confirm-button {
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: 3px;
+    font: 700 12px Arial, sans-serif;
+}
+
+.modal-cancel-button {
+    border: 1px solid #c9c3ba;
+    color: #607080;
+    background: transparent;
+}
+
+.modal-confirm-button {
+    border: 1px solid transparent;
+    color: #fffaf3;
+}
+
+.modal-confirm-button.danger {
+    background: #a33d38;
+}
+
+.modal-confirm-button.success {
+    background: #2e7058;
+}
+
+.modal-confirm-button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+@media (max-width: 520px) {
+    .conta-modal {
+        padding: 22px;
+    }
+
+    .conta-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .modal-cancel-button,
+    .modal-confirm-button {
+        width: 100%;
+    }
+}

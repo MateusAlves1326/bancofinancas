@@ -1,0 +1,263 @@
+:root {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #172b4d;
+  background: #f4f0e9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  margin-top: 12px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 2px;
+  color: #fffaf3;
+  background: #bb7454;
+  font: 700 14px Arial, sans-serif;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #a76145;
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.submit-button span {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.login-page {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.9fr) minmax(460px, 1.1fr);
+  min-height: 100vh;
+}
+
+.brand-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 9vw;
+  color: #f7f3ec;
+  background: #12304a;
+  background-image: linear-gradient(145deg, #12304a 0%, #1c4e5d 58%, #bb7454 160%);
+}
+
+.brand-mark {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 48px;
+  place-items: center;
+  border: 1px solid rgba(247, 243, 236, 0.55);
+  color: #f4c095;
+  font: 700 16px Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #f4c095;
+  font: 700 12px Arial, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.brand-panel h1,
+.form-panel h2 {
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.brand-panel h1 {
+  max-width: 480px;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 0.98;
+}
+
+.brand-copy {
+  max-width: 390px;
+  margin: 30px 0 0;
+  color: rgba(247, 243, 236, 0.76);
+  font: 16px/1.7 Arial, sans-serif;
+}
+
+.brand-line {
+  width: 72px;
+  height: 1px;
+  margin: 58px 0 18px;
+  background: #f4c095;
+}
+
+.brand-caption {
+  margin: 0;
+  color: rgba(247, 243, 236, 0.65);
+  font: 12px Arial, sans-serif;
+}
+
+.form-panel {
+  display: grid;
+  align-items: center;
+  padding: 48px 9vw;
+  background: #f4f0e9;
+}
+
+.form-container {
+  width: min(100%, 430px);
+  margin: 0 auto;
+}
+
+.form-eyebrow {
+  color: #bb7454;
+}
+
+.form-panel h2 {
+  color: #172b4d;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+}
+
+.form-intro {
+  margin: 16px 0 42px;
+  color: #607080;
+  font: 15px/1.6 Arial, sans-serif;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label,
+.forgot-link {
+  color: #3f5369;
+  font: 700 12px Arial, sans-serif;
+}
+
+input {
+  width: 100%;
+  height: 54px;
+  margin-bottom: 14px;
+  padding: 0 16px;
+  border: 1px solid #c9c3ba;
+  border-radius: 2px;
+  outline: none;
+  color: #172b4d;
+  background: rgba(255, 255, 255, 0.5);
+  font: 15px Arial, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+input:focus {
+  border-color: #bb7454;
+  box-shadow: 0 0 0 3px rgba(187, 116, 84, 0.14);
+}
+
+input::placeholder {
+  color: #9b9a96;
+}
+
+.password-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forgot-link {
+  padding: 0;
+  border: 0;
+  color: #bb7454;
+  background: transparent;
+  font-weight: 400;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+
+
+.status-message {
+  margin: 2px 0 0;
+  font: 13px/1.4 Arial, sans-serif;
+}
+
+.status-message.error {
+  color: #a33d38;
+}
+
+.status-message.success {
+  color: #2e7058;
+}
+
+.security-note {
+  margin: 30px 0 0;
+  color: #8a8b88;
+  font: 12px Arial, sans-serif;
+}
+
+.security-note span {
+  margin-right: 8px;
+}
+
+@media (max-width: 800px) {
+  .login-page {
+    display: block;
+  }
+
+  .brand-panel {
+    min-height: 360px;
+    padding: 48px 28px;
+  }
+
+  .brand-mark {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 34px;
+  }
+
+  .brand-panel h1 {
+    font-size: 46px;
+  }
+
+  .brand-copy {
+    margin-top: 18px;
+    font-size: 14px;
+  }
+
+  .brand-line {
+    margin: 28px 0 14px;
+  }
+
+  .form-panel {
+    padding: 52px 28px 64px;
+  }
+}

@@ -7,8 +7,11 @@ public class ContaCorrenteResponse {
     private Integer numero;
     private BigDecimal saldo;
     private Long clienteId;
+    private String clienteNome;
     private Long agenciaId;
     private boolean bloqueada;
+    private String motivoBloqueio;
+    private String motivoDesbloqueio;
     public Long getId() {
         return id;
     }
@@ -23,6 +26,10 @@ public class ContaCorrenteResponse {
 
     public Long getAgenciaId() {
         return agenciaId;
+    }
+
+    public String getClienteNome() {
+        return clienteNome;
     }
 
     public BigDecimal getSaldo() {
@@ -49,11 +56,31 @@ public class ContaCorrenteResponse {
         this.agenciaId = agenciaId;
     }
 
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
+    }
+
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
     public void setBloqueada(boolean bloqueada) {
         this.bloqueada = bloqueada;
+    }
+
+    public String getMotivoBloqueio() {
+        return motivoBloqueio;
+    }
+
+    public void setMotivoBloqueio(String motivoBloqueio) {
+        this.motivoBloqueio = motivoBloqueio;
+    }
+
+    public String getMotivoDesbloqueio() {
+        return motivoDesbloqueio;
+    }
+
+    public void setMotivoDesbloqueio(String motivoDesbloqueio) {
+        this.motivoDesbloqueio = motivoDesbloqueio;
     }
 }

@@ -1,0 +1,45 @@
+.header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	min-height: 64px;
+	padding: 0 32px;
+	color: #f7f3ec;
+	background: #12304a;
+	border-bottom: 1px solid rgba(247, 243, 236, 0.16);
+}
+
+.header .brand-mark {
+	display: grid;
+	width: 40px;
+	height: 40px;
+	margin: 0;
+	place-items: center;
+	border: 1px solid rgba(247, 243, 236, 0.55);
+}
+
+.brand-mark-text {
+	color: #f4c095;
+	font: 700 13px Arial, sans-serif;
+	letter-spacing: 1px;
+}
+
+.brand-name {
+	color: #f7f3ec;
+	font: 600 18px Georgia, 'Times New Roman', serif;
+}
+
+.logout-button {
+	background: #eb5a4f;
+	color: #12304a;
+	font: 600 14px Arial, sans-serif;
+	border: none;
+	border-radius: 4px;
+	padding: 8px 16px;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.logout-button:hover {
+	background: #eb5a4f;
+}

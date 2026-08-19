@@ -1,0 +1,29 @@
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  margin-top: 12px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 2px;
+  color: #fffaf3;
+  background: #bb7454;
+  font: 700 14px Arial, sans-serif;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #a76145;
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.submit-button span {
+  font-size: 22px;
+  font-weight: 400;
+}

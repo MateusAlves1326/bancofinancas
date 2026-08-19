@@ -1,0 +1,145 @@
+.contas-section {
+  margin-top: 42px;
+  border-top: 3px solid #bb7454;
+  background: #fffdf9;
+}
+
+.contas-feedback {
+  margin: 0;
+  padding: 64px 24px;
+  color: #8a8b88;
+  font: 14px/1.5 Arial, sans-serif;
+  text-align: center;
+}
+
+.contas-error {
+  color: #a33d38;
+}
+
+.contas-table-wrapper {
+  overflow-x: auto;
+}
+
+.contas-table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+  color: #172b4d;
+  font: 14px Arial, sans-serif;
+}
+
+.contas-table th,
+.contas-table td {
+  padding: 17px 20px;
+  border-bottom: 1px solid #e6dfd5;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.contas-table th {
+  color: #607080;
+  background: #f8f4ee;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.contas-table td:nth-child(1),
+.contas-table td:nth-child(4) {
+  color: #607080;
+  font-variant-numeric: tabular-nums;
+}
+
+.contas-table td:nth-child(3) {
+  color: #2e7058;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.contas-table tbody tr {
+  transition: background 160ms ease;
+}
+
+.contas-table tbody tr:hover {
+  background: #fcf8f2;
+}
+
+.contas-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.contas-action-button {
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font: 700 11px Arial, sans-serif;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.contas-action-button.block {
+  color: #a33d38;
+  border-color: #d9a6a1;
+  background: #fff5f3;
+}
+
+.contas-action-button.block:hover {
+  background: #f7dfdb;
+}
+
+.contas-action-button.unblock {
+  color: #2e7058;
+  border-color: #a9cbbb;
+  background: #f2faf5;
+}
+
+.contas-action-button.unblock:hover {
+  background: #dcefe3;
+}
+
+@media (max-width: 800px) {
+  .contas-section {
+    margin-top: 32px;
+  }
+
+  .contas-table {
+    min-width: 720px;
+  }
+
+  .contas-table th,
+  .contas-table td {
+    padding: 14px 16px;
+  }
+}
+
+.contas-search-label {
+  display: block;
+  margin: 28px 0 8px;
+  color: #607080;
+  font: 700 11px Arial, sans-serif;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.contas-search {
+  width: min(100%, 420px);
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #c9c3ba;
+  border-radius: 3px;
+  outline: none;
+  color: #172b4d;
+  background: #fffdf9;
+  font: 14px Arial, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.contas-search:focus {
+  border-color: #bb7454;
+  box-shadow: 0 0 0 3px rgba(187, 116, 84, 0.14);
+}
+
+.contas-search::placeholder {
+  color: #9b9a96;
+}

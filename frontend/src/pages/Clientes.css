@@ -1,0 +1,49 @@
+.agency-clients {
+  margin-top: 42px;
+  border-top: 3px solid #bb7454;
+  background: #fffdf9;
+}
+
+.clients-feedback {
+  margin: 0;
+  padding: 56px 24px;
+  color: #8a8b88;
+  font: 14px Arial, sans-serif;
+  text-align: center;
+}
+
+.clients-feedback.error {
+  color: #a33d38;
+}
+
+.clients-table-wrapper {
+  overflow-x: auto;
+}
+
+.clients-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  color: #172b4d;
+  font: 14px Arial, sans-serif;
+}
+
+.clients-table th,
+.clients-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e6dfd5;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.clients-table th {
+  color: #607080;
+  background: #f8f4ee;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.clients-table tbody tr:hover {
+  background: #fcf8f2;
+}

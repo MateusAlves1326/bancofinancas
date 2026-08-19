@@ -37,6 +37,12 @@ public class ContaCorrente {
     @Column(name = "bloqueada", nullable = false)
     private boolean bloqueada;
 
+    @Column(name = "motivo_bloqueio", length = 255)
+    private String motivoBloqueio;
+
+    @Column(name = "motivo_desbloqueio", length = 255)
+    private String motivoDesbloqueio;
+
     @ManyToOne
     @JoinColumn(name = "idCliente", nullable = false)
     private Cliente cliente;
@@ -83,6 +89,22 @@ public class ContaCorrente {
 
     public void setBloqueada(boolean bloqueada) {
         this.bloqueada = bloqueada;
+    }
+
+    public String getMotivoBloqueio() {
+        return motivoBloqueio;
+    }
+
+    public void setMotivoBloqueio(String motivoBloqueio) {
+        this.motivoBloqueio = motivoBloqueio;
+    }
+
+    public String getMotivoDesbloqueio() {
+        return motivoDesbloqueio;
+    }
+
+    public void setMotivoDesbloqueio(String motivoDesbloqueio) {
+        this.motivoDesbloqueio = motivoDesbloqueio;
     }
 
     public Cliente getCliente() {

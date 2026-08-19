@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContaCorrenteService {
     private final ContaCorrenteRepository contaCorrenteRepository;
@@ -46,7 +48,14 @@ public class ContaCorrenteService {
         return toResponse(contaCorrenteRepository.save(contaCorrente));
     }
 
-    public ContaCorrenteResponse atualizarBloqueio(Long contaCorrenteId, Long clienteId, boolean bloqueada) {
+    public List<ContaCorrenteResponse> findAll() {
+        return contaCorrenteRepository.findAll().stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+        public ContaCorrenteResponse atualizarBloqueio(
+            Long contaCorrenteId, Long clienteId, boolean bloqueada, String motivo) {
         ContaCorrente conta = contaCorrenteRepository.findById(contaCorrenteId.intValue())
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
 
@@ -57,6 +66,11 @@ public class ContaCorrenteService {
         }
 
         conta.setBloqueada(bloqueada);
+        if (bloqueada) {
+            conta.setMotivoBloqueio(motivo.trim());
+        } else {
+            conta.setMotivoDesbloqueio(motivo.trim());
+        }
         return toResponse(contaCorrenteRepository.save(conta));
     }
 
@@ -66,8 +80,11 @@ public class ContaCorrenteService {
         response.setNumero(salvo.getNumero());
         response.setSaldo(salvo.getSaldo());
         response.setClienteId((long) salvo.getCliente().getIdCustomer());
+        response.setClienteNome(salvo.getCliente().getNome());
         response.setAgenciaId((long) salvo.getAgencia().getIdAgency());
         response.setBloqueada(salvo.isBloqueada());
+        response.setMotivoBloqueio(salvo.getMotivoBloqueio());
+        response.setMotivoDesbloqueio(salvo.getMotivoDesbloqueio());
 
         return response;
     }
