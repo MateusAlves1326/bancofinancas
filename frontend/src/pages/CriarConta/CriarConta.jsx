@@ -10,6 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 function CriarConta() {
     const navigate = useNavigate();
 
+
     const [cliente, setCliente] = useState({
         nome: '',
         email: '',
@@ -109,6 +110,10 @@ function CriarConta() {
                     contaBody.message || 'Cliente criado, mas ocorreu um erro ao criar a conta',
                 );
             }
+
+            {!loading && erro && (
+              <p className="clients-feedback error" role="alert">{erro}</p>
+            )}
 
             navigate('/agente/contas');
 
