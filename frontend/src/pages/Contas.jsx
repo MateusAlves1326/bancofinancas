@@ -7,6 +7,7 @@ import ModalMotivoConta from '../components/ModalMotivoConta/ModalMotivoConta';
 import './Contas.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const ITENS_POR_PAGINA = 5;
 
 function Contas() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Contas() {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [paginaAtual, setPaginaAtual] = useState(1);
     const [contaSelecionada, setContaSelecionada] = useState(null);
     const [acaoModal, setAcaoModal] = useState(null);
     const [isUpdating, setIsUpdating] = useState(false);
@@ -27,6 +29,10 @@ function Contas() {
         return [conta.numero, conta.clienteNome, conta.agenciaId]
             .some((valor) => String(valor).toLowerCase().includes(termo));
     });
+            const totalPaginas = Math.max(1, Math.ceil(contasFiltradas.length / ITENS_POR_PAGINA));
+            const paginaExibida = Math.min(paginaAtual, totalPaginas);
+            const inicio = (paginaExibida - 1) * ITENS_POR_PAGINA;
+            const contasPaginadas = contasFiltradas.slice(inicio, inicio + ITENS_POR_PAGINA);
 
     function abrirModal(conta, acao) {
         setContaSelecionada(conta);
@@ -135,7 +141,10 @@ function Contas() {
                             placeholder="Numero, cliente ou agencia"
                             className="contas-search"
                             value={searchTerm}
-                            onChange={(event) => setSearchTerm(event.target.value)}
+                            onChange={(event) => {
+                                setSearchTerm(event.target.value);
+                                setPaginaAtual(1);
+                            }}
                         />
                         <p>Acompanhe as contas cadastradas na sua agencia.</p>
                     </div>
@@ -167,7 +176,7 @@ function Contas() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {contasFiltradas.map((conta) => (
+                                    {contasPaginadas.map((conta) => (
                                         <tr key={conta.id}>
                                             <td>{conta.numero}</td>
                                             <td>{conta.clienteNome}</td>
@@ -189,6 +198,25 @@ function Contas() {
                                 </tbody>
                                 </table>
                             </div>
+                        )}
+                        {!isLoading && !errorMessage && contasFiltradas.length > 0 && (
+                            <nav aria-label="Paginação de contas" className="contas-pagination">
+                                <button
+                                    disabled={paginaExibida === 1}
+                                    onClick={() => setPaginaAtual(paginaExibida - 1)}
+                                    type="button"
+                                >
+                                    Anterior
+                                </button>
+                                <span>Página {paginaExibida} de {totalPaginas}</span>
+                                <button
+                                    disabled={paginaExibida === totalPaginas}
+                                    onClick={() => setPaginaAtual(paginaExibida + 1)}
+                                    type="button"
+                                >
+                                    Próxima
+                                </button>
+                            </nav>
                         )}
                     </section>
                 </main>

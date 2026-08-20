@@ -6,12 +6,26 @@ import './HomeAgente.css';
 import './Clientes.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const ITENS_POR_PAGINA = 5;
 
 function Clientes() {
   const navigate = useNavigate();
   const [clientes, setClientes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [paginaAtual, setPaginaAtual] = useState(1);
+
+  const clientesFiltrados = clientes.filter((cliente) => {
+    const termo = searchTerm.trim().toLowerCase();
+    if (!termo) return true;
+    return [cliente.nome, cliente.cpf, cliente.email, cliente.telefone]
+      .some((valor) => String(valor || '').toLowerCase().includes(termo));
+  });
+  const totalPaginas = Math.max(1, Math.ceil(clientesFiltrados.length / ITENS_POR_PAGINA));
+  const paginaExibida = Math.min(paginaAtual, totalPaginas);
+  const inicio = (paginaExibida - 1) * ITENS_POR_PAGINA;
+  const clientesPaginados = clientesFiltrados.slice(inicio, inicio + ITENS_POR_PAGINA);
 
   useEffect(() => {
     async function carregarClientes() {
@@ -60,6 +74,20 @@ function Clientes() {
           <div className="agency-heading">
             <p className="agency-eyebrow">Clientes</p>
             <h1>Lista de clientes</h1>
+            <label className="clients-search-label" htmlFor="clientes-search">
+              Pesquisar clientes
+            </label>
+            <input
+              className="clients-search"
+              id="clientes-search"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setPaginaAtual(1);
+              }}
+              placeholder="Nome, CPF, e-mail ou telefone"
+              type="search"
+              value={searchTerm}
+            />
             <p>Aqui você pode visualizar e gerenciar os clientes cadastrados na sua agência.</p>
           </div>
           <section className="agency-clients" aria-label="Lista de clientes">
@@ -73,7 +101,11 @@ function Clientes() {
               <p className="clients-feedback">Nenhum cliente cadastrado ainda.</p>
             )}
 
-            {!isLoading && !errorMessage && clientes.length > 0 && (
+            {!isLoading && !errorMessage && clientes.length > 0 && clientesFiltrados.length === 0 && (
+              <p className="clients-feedback">Nenhum cliente encontrado para essa pesquisa.</p>
+            )}
+
+            {!isLoading && !errorMessage && clientesFiltrados.length > 0 && (
               <div className="clients-table-wrapper">
                 <table className="clients-table">
                   <thead>
@@ -86,7 +118,7 @@ function Clientes() {
                     </tr>
                   </thead>
                   <tbody>
-                    {clientes.map((cliente) => (
+                    {clientesPaginados.map((cliente) => (
                       <tr key={cliente.idCustomer}>
                         <td>{cliente.idCustomer}</td>
                         <td>{cliente.nome}</td>
@@ -98,6 +130,25 @@ function Clientes() {
                   </tbody>
                 </table>
               </div>
+            )}
+            {!isLoading && !errorMessage && clientesFiltrados.length > 0 && (
+              <nav aria-label="Paginação de clientes" className="clients-pagination">
+                <button
+                  disabled={paginaExibida === 1}
+                  onClick={() => setPaginaAtual(paginaExibida - 1)}
+                  type="button"
+                >
+                  Anterior
+                </button>
+                <span>Página {paginaExibida} de {totalPaginas}</span>
+                <button
+                  disabled={paginaExibida === totalPaginas}
+                  onClick={() => setPaginaAtual(paginaExibida + 1)}
+                  type="button"
+                >
+                  Próxima
+                </button>
+              </nav>
             )}
           </section>
         </main>

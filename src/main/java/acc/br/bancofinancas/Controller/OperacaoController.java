@@ -4,6 +4,7 @@ import acc.br.bancofinancas.service.OperacaoService;
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
 import acc.br.bancofinancas.dto.DecisaoReversaoRequest;
 import acc.br.bancofinancas.dto.DecisaoReversaoResponse;
+import acc.br.bancofinancas.dto.OperacaoResponse;
 import acc.br.bancofinancas.dto.SolicitacaoReversaoResponse;
 import acc.br.bancofinancas.model.Extrato;
 import acc.br.bancofinancas.model.Operacao;
@@ -33,6 +34,12 @@ public class OperacaoController {
 
     public OperacaoController(OperacaoService operacaoService) {
         this.operacaoService = operacaoService;
+    }
+
+    @Operation(summary = "Listar operações da agência", description = "Retorna as movimentações das contas vinculadas à agência autenticada.")
+    @GetMapping
+    public List<OperacaoResponse> listar() {
+        return operacaoService.listarOperacoesDaAgencia();
     }
 
     @Operation(summary = "Registrar operação", description = "Cria uma movimentação financeira na conta corrente, como depósito, saque, pagamento, compra ou transferência.")

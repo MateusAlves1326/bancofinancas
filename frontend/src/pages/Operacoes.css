@@ -1,10 +1,10 @@
-.contas-section {
+.operacoes-section {
   margin-top: 42px;
   border-top: 3px solid #bb7454;
   background: #fffdf9;
 }
 
-.contas-feedback {
+.operacoes-feedback {
   margin: 0;
   padding: 64px 24px;
   color: #8a8b88;
@@ -12,15 +12,15 @@
   text-align: center;
 }
 
-.contas-error {
+.operacoes-error {
   color: #a33d38;
 }
 
-.contas-table-wrapper {
+.operacoes-table-wrapper {
   overflow-x: auto;
 }
 
-.contas-table {
+.operacoes-table {
   width: 100%;
   min-width: 780px;
   border-collapse: collapse;
@@ -28,15 +28,15 @@
   font: 14px Arial, sans-serif;
 }
 
-.contas-table th,
-.contas-table td {
+.operacoes-table th,
+.operacoes-table td {
   padding: 17px 20px;
   border-bottom: 1px solid #e6dfd5;
   text-align: left;
   white-space: nowrap;
 }
 
-.contas-table th {
+.operacoes-table th {
   color: #607080;
   background: #f8f4ee;
   font-size: 11px;
@@ -44,32 +44,32 @@
   text-transform: uppercase;
 }
 
-.contas-table td:nth-child(1),
-.contas-table td:nth-child(4) {
+.operacoes-table td:nth-child(1),
+.operacoes-table td:nth-child(4) {
   color: #607080;
   font-variant-numeric: tabular-nums;
 }
 
-.contas-table td:nth-child(3) {
+.operacoes-table td:nth-child(3) {
   color: #2e7058;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
-.contas-table tbody tr {
+.operacoes-table tbody tr {
   transition: background 160ms ease;
 }
 
-.contas-table tbody tr:hover {
+.operacoes-table tbody tr:hover {
   background: #fcf8f2;
 }
 
-.contas-actions {
+.operacoes-actions {
   display: flex;
   gap: 8px;
 }
 
-.contas-action-button {
+.operacoes-action-button {
   padding: 8px 11px;
   border: 1px solid transparent;
   border-radius: 3px;
@@ -78,42 +78,42 @@
   transition: background 160ms ease, border-color 160ms ease;
 }
 
-.contas-action-button.block {
+.operacoes-action-button.block {
   color: #a33d38;
   border-color: #d9a6a1;
   background: #fff5f3;
 }
 
-.contas-action-button.block:hover {
+.operacoes-action-button.block:hover {
   background: #f7dfdb;
 }
 
-.contas-action-button.unblock {
+.operacoes-action-button.unblock {
   color: #2e7058;
   border-color: #a9cbbb;
   background: #f2faf5;
 }
 
-.contas-action-button.unblock:hover {
+.operacoes-action-button.unblock:hover {
   background: #dcefe3;
 }
 
 @media (max-width: 800px) {
-  .contas-section {
+  .operacoes-section {
     margin-top: 32px;
   }
 
-  .contas-table {
+  .operacoes-table {
     min-width: 720px;
   }
 
-  .contas-table th,
-  .contas-table td {
+  .operacoes-table th,
+  .operacoes-table td {
     padding: 14px 16px;
   }
 }
 
-.contas-search-label {
+.operacoes-search-label {
   display: block;
   margin: 28px 0 8px;
   color: #607080;
@@ -122,7 +122,7 @@
   text-transform: uppercase;
 }
 
-.contas-search {
+.operacoes-search {
   width: min(100%, 420px);
   height: 46px;
   padding: 0 14px;
@@ -135,16 +135,16 @@
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 
-.contas-search:focus {
+.operacoes-search:focus {
   border-color: #bb7454;
   box-shadow: 0 0 0 3px rgba(187, 116, 84, 0.14);
 }
 
-.contas-search::placeholder {
+.operacoes-search::placeholder {
   color: #9b9a96;
 }
 
-.contas-pagination {
+.operacoes-pagination {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -155,7 +155,7 @@
   font: 12px Arial, sans-serif;
 }
 
-.contas-pagination button {
+.operacoes-pagination button {
   min-height: 34px;
   padding: 0 12px;
   border: 1px solid #c9c3ba;
@@ -166,7 +166,7 @@
   cursor: pointer;
 }
 
-.contas-pagination button:disabled {
+.operacoes-pagination button:disabled {
   cursor: default;
   opacity: 0.45;
 }

@@ -11,6 +11,7 @@ public class SolicitacaoReversaoResponse {
     private Long solicitacaoId;
     private Long contaCorrenteId;
     private Long clienteId;
+    private String clienteNome;
     private BigDecimal valor;
     private Operacao operacaoReversa;
     private StatusSolicitacaoReversao status;
@@ -39,6 +40,14 @@ public class SolicitacaoReversaoResponse {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
+    }
+
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
     }
 
     public BigDecimal getValor() {

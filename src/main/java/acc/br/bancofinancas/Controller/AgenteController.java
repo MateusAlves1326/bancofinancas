@@ -2,6 +2,7 @@ package acc.br.bancofinancas.Controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +18,15 @@ import acc.br.bancofinancas.dto.CreateContaCorrenteRequest;
 import acc.br.bancofinancas.dto.CreditoManualRequest;
 import acc.br.bancofinancas.dto.DecisaoReversaoRequest;
 import acc.br.bancofinancas.dto.DecisaoReversaoResponse;
+import acc.br.bancofinancas.dto.SolicitacaoReversaoResponse;
 import acc.br.bancofinancas.model.Extrato;
 import acc.br.bancofinancas.service.AgenteService;
 import acc.br.bancofinancas.service.ContaCorrenteService;
 import acc.br.bancofinancas.service.OperacaoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/agentes")
@@ -50,6 +54,11 @@ public class AgenteController {
     @PostMapping("/contas")
     public ResponseEntity<ContaCorrenteResponse> criarConta(@Valid @RequestBody CreateContaCorrenteRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(contaCorrenteService.createContaCorrente(request));
+    }
+
+    @GetMapping("/reversoes")
+    public List<SolicitacaoReversaoResponse> listarReversoesPendentes() {
+        return operacaoService.listarReversoesPendentesDaAgencia();
     }
 
     @PostMapping("/reversoes/decisoes")

@@ -9,19 +9,18 @@ const menuGroups = [
 		],
 	},
 	{
-		title: 'Operacoes',
+		title: 'Operações',
 		items: [
 			{ label: 'Clientes', path: '/agente/clientes', icon: '▣' },
 			{ label: 'Contas', path: '/agente/contas', icon: '□' },
-			{ label: 'Operacoes', path: '/agente/operacoes', icon: '⇄' },
-			{ label: 'Reversoes', path: '/agente/reversoes', icon: '↶' },
+			{ label: 'Operações', path: '/agente/operacoes', icon: '⇄' },
+			{ label: 'Reversões', path: '/agente/reversoes', icon: '↶' },
 		],
 	},
 	{
 		title: 'Gerenciamento',
 		items: [
 			{ label: 'Criar conta', path: '/agente/contas/nova', icon: '+' },
-			{ label: 'Bloquear conta', path: '/agente/contas/bloqueio', icon: '⊘' },
 			{ label: 'Adicionar saldo', path: '/agente/contas/saldo', icon: '$' },
 		],
 	},
@@ -41,7 +40,7 @@ function Sidebar() {
 				<div className="sidebar-brand-mark" aria-hidden="true">BF</div>
 				<div>
 					<strong>Banco</strong>
-					<span>Financas</span>
+					<span>Finanças</span>
 				</div>
 			</div>
 
@@ -71,10 +70,6 @@ function Sidebar() {
 			</nav>
 
 			<div className="sidebar-footer">
-				<NavLink className="sidebar-link" to="/agente/configuracoes">
-					<span className="sidebar-link-icon" aria-hidden="true">⚙</span>
-					<span>Configuracoes</span>
-				</NavLink>
 				<button className="sidebar-link sidebar-logout" onClick={handleLogout} type="button">
 					<span className="sidebar-link-icon" aria-hidden="true">↪</span>
 					<span>Sair</span>

@@ -9,4 +9,6 @@ import acc.br.bancofinancas.model.StatusSolicitacaoReversao;
 
 public interface SolicitacaoReversaoRepository extends JpaRepository<SolicitacaoReversao, Integer> {
     List<SolicitacaoReversao> findByStatusOrderByDataSolicitacaoAsc(StatusSolicitacaoReversao status);
+    List<SolicitacaoReversao> findByContaCorrente_Agencia_IdAgencyAndStatusOrderByDataSolicitacaoAsc(
+            int agenciaId, StatusSolicitacaoReversao status);
 }

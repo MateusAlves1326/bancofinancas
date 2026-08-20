@@ -47,3 +47,61 @@
 .clients-table tbody tr:hover {
   background: #fcf8f2;
 }
+
+.clients-search-label {
+  display: block;
+  margin: 28px 0 8px;
+  color: #607080;
+  font: 700 11px Arial, sans-serif;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.clients-search {
+  width: min(100%, 420px);
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #c9c3ba;
+  border-radius: 3px;
+  outline: none;
+  color: #172b4d;
+  background: #fffdf9;
+  font: 14px Arial, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.clients-search:focus {
+  border-color: #bb7454;
+  box-shadow: 0 0 0 3px rgba(187, 116, 84, 0.14);
+}
+
+.clients-search::placeholder {
+  color: #9b9a96;
+}
+
+.clients-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 18px 20px;
+  color: #607080;
+  background: #fffdf9;
+  font: 12px Arial, sans-serif;
+}
+
+.clients-pagination button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #c9c3ba;
+  border-radius: 3px;
+  color: #172b4d;
+  background: #fffdf9;
+  font: 700 11px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.clients-pagination button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}

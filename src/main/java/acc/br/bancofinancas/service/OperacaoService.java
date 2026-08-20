@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import acc.br.bancofinancas.dto.CreateOperacaoRequest;
 import acc.br.bancofinancas.dto.DecisaoReversaoResponse;
+import acc.br.bancofinancas.dto.OperacaoResponse;
 import acc.br.bancofinancas.dto.SolicitacaoReversaoResponse;
 import acc.br.bancofinancas.model.ContaCorrente;
 import acc.br.bancofinancas.model.Extrato;
@@ -216,6 +217,33 @@ public class OperacaoService {
         return obterExtrato(contaCorrenteId, null);
     }
 
+    public List<OperacaoResponse> listarOperacoesDaAgencia() {
+        AuthenticatedUser user = getAuthenticatedUser();
+        if (user == null || user.getRole() != Role.AGENCIA || user.getAgenciaId() == null) {
+            throw new IllegalArgumentException("Somente usuários da agência podem listar operações");
+        }
+
+        return extratoRepository
+                .findByContaCorrente_Agencia_IdAgencyOrderByDataHoraMovimentoDesc(user.getAgenciaId())
+                .stream()
+                .map(this::toOperacaoResponse)
+                .toList();
+    }
+
+    public List<SolicitacaoReversaoResponse> listarReversoesPendentesDaAgencia() {
+        AuthenticatedUser user = getAuthenticatedUser();
+        if (user == null || user.getRole() != Role.AGENCIA || user.getAgenciaId() == null) {
+            throw new IllegalArgumentException("Somente usuários da agência podem listar reversões");
+        }
+
+        return solicitacaoReversaoRepository
+                .findByContaCorrente_Agencia_IdAgencyAndStatusOrderByDataSolicitacaoAsc(
+                        user.getAgenciaId(), StatusSolicitacaoReversao.PENDENTE)
+                .stream()
+                .map(this::toSolicitacaoResponse)
+                .toList();
+    }
+
     public List<Extrato> obterExtrato(Long contaCorrenteId, Long clienteId) {
         Integer contaId = contaCorrenteId.intValue();
 
@@ -255,11 +283,25 @@ public class OperacaoService {
                 contaId, inicio, fim);
     }
 
+    private OperacaoResponse toOperacaoResponse(Extrato extrato) {
+        ContaCorrente conta = extrato.getContaCorrente();
+        OperacaoResponse response = new OperacaoResponse();
+        response.setId(extrato.getIdExtrato());
+        response.setNumeroConta(conta.getNumero());
+        response.setClienteNome(conta.getCliente().getNome());
+        response.setAgenciaId(conta.getAgencia().getIdAgency());
+        response.setTipo(extrato.getOperacao().name());
+        response.setValor(extrato.getValorOperacao());
+        response.setDataHora(extrato.getDataHoraMovimento());
+        return response;
+    }
+
     private SolicitacaoReversaoResponse toSolicitacaoResponse(SolicitacaoReversao solicitacao) {
         SolicitacaoReversaoResponse response = new SolicitacaoReversaoResponse();
         response.setSolicitacaoId(solicitacao.getId().longValue());
         response.setContaCorrenteId((long) solicitacao.getContaCorrente().getIdContaCorrente());
         response.setClienteId((long) solicitacao.getContaCorrente().getCliente().getIdCustomer());
+        response.setClienteNome(solicitacao.getContaCorrente().getCliente().getNome());
         response.setValor(solicitacao.getValor());
         response.setOperacaoReversa(solicitacao.getOperacaoReversa());
         response.setStatus(solicitacao.getStatus());

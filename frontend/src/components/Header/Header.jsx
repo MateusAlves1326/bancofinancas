@@ -6,8 +6,7 @@ function Header() {
             <div className="brand-mark">
                 <span className="brand-mark-text">BF</span>
             </div>
-            <span className="brand-name">Banco Financas</span>
-            <button className="logout-button">Sair</button>
+            <span className="brand-name">Banco Finanças</span>
         </header>
     );
 }
