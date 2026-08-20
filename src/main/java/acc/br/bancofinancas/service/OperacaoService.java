@@ -133,6 +133,12 @@ public class OperacaoService {
 
     @Transactional
     public SolicitacaoReversaoResponse solicitarReversao(CreateOperacaoRequest request) {
+        if (request.getContaCorrenteId() == null) {
+            throw new IllegalArgumentException("É necessário informar a conta corrente");
+        }
+        if (request.getClienteId() == null) {
+            throw new IllegalArgumentException("É necessário informar o cliente");
+        }
         if (request.getExtratoOrigemId() == null) {
             throw new IllegalArgumentException("É necessário informar o extrato original para solicitar reversão");
         }
@@ -146,6 +152,10 @@ public class OperacaoService {
 
         if (conta.getIdContaCorrente() != request.getContaCorrenteId().intValue()) {
             throw new IllegalArgumentException("O extrato não pertence à conta informada");
+        }
+
+        if (request.getMotivo() == null || request.getMotivo().isBlank()) {
+            throw new IllegalArgumentException("É necessário informar o motivo da reversão");
         }
 
         BigDecimal valor = extratoOriginal.getValorOperacao();

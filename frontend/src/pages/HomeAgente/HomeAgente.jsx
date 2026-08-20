@@ -1,5 +1,5 @@
-import Header from '../components/Header/Header';
-import Sidebar from '../components/SideBar/Sidebar';
+import Header from '../../components/Header/Header';
+import Sidebar from '../../components/SideBar/Sidebar';
 import './HomeAgente.css';
 
 function HomeAgente() {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Header from '../components/Header/Header';
-import Sidebar from '../components/SideBar/Sidebar';
+import Header from '../../components/Header/Header';
+import Sidebar from '../../components/SideBar/Sidebar';
 import './Operacoes.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Header from '../components/Header/Header';
-import Sidebar from '../components/SideBar/Sidebar';
-import ModalMotivoConta from '../components/ModalMotivoConta/ModalMotivoConta';
+import Header from '../../components/Header/Header';
+import Sidebar from '../../components/SideBar/Sidebar';
+import ModalMotivoConta from '../../components/ModalMotivoConta/ModalMotivoConta';
 import './Contas.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
