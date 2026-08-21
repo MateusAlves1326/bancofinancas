@@ -279,7 +279,9 @@
     'content';
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
   background: #f4f0e9;
 }
 
@@ -335,6 +337,24 @@
   .reversoes-pagination {
     justify-content: center;
     padding: 16px 12px;
+  }
+}
+
+/* ALTERADO: compacta a tabela em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+  .agency-main {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .reversoes-section {
+    margin-top: 24px;
+  }
+
+  .reversoes-table th,
+  .reversoes-table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 

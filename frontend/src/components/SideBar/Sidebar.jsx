@@ -51,7 +51,7 @@ function Sidebar({ onMenuClick }) {
 				)}
 				<div>
 					<strong>Banco</strong>
-					<span>Finanças</span>
+					<span>Pança</span>
 				</div>
 			</div>
 

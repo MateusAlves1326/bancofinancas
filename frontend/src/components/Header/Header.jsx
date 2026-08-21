@@ -12,7 +12,7 @@ function Header({ onMenuClick }) {
                 <span className="brand-mark-text">BF</span>
             </button>
 
-            <span className="brand-name">Banco Finanças</span>
+            <span className="brand-name">Banco Pança</span>
         </header>
     );
 }

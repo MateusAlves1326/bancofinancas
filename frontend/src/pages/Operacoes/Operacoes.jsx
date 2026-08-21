@@ -72,10 +72,10 @@ function Operacoes() {
     carregarOperacoes();
   }, [navigate]);
   return (
-    <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
-            <Header onMenuClick={handleMenuClick} />
-            {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
-      
+    <div className={`agency-layout ${sidebarOpen ? 'sidebar-open' : ''}`}>
+      <Header onMenuClick={handleMenuClick} />
+      {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+      <div className="agency-content-area">
         <main className="agency-main">
           <div className="agency-heading">
             <p className="agency-eyebrow">Operações</p>
@@ -162,7 +162,7 @@ function Operacoes() {
             </section>
         </main>
       </div>
-    
+    </div>
   );
 }
 

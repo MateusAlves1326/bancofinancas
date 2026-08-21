@@ -247,6 +247,24 @@
   }
 }
 
+/* ALTERADO: compacta a listagem em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+  .contas-main {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .contas-contas {
+    margin-top: 24px;
+  }
+
+  .contas-table th,
+  .contas-table td {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+}
+
 .contas-layout > .contas-content-area {
   /* ALTERADO: o wrapper passa a ocupar a area de conteudo do grid. */
   grid-area: content;

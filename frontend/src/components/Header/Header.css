@@ -35,3 +35,11 @@
     color: #f7f3ec;
     font: 600 18px Georgia, 'Times New Roman', serif;
 }
+
+/* ALTERADO: compacta o Header em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+    .header {
+        min-height: 56px;
+        padding: 0 24px;
+    }
+}

@@ -10,9 +10,56 @@
   box-sizing: border-box;
 }
 
+/* ALTERADO: remove a aparencia das barras de rolagem em todas as paginas. */
+html,
+body,
+#root {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* ALTERADO: impede somente a rolagem horizontal acidental do viewport. */
+html,
+body,
+#root {
+  overflow-x: hidden;
+  /* ALTERADO: fixa a aplicacao na altura da viewport, sem scroll externo. */
+  height: 100%;
+  overflow-y: hidden;
+}
+
 body {
   margin: 0;
   min-width: 320px;
+}
+
+/* ALTERADO: impede que qualquer pagina ultrapasse a area visivel. */
+.agency-layout,
+.criar-conta,
+.adicionar-saldo,
+.clients-layout,
+.contas-layout {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ALTERADO: os wrappers internos podem encolher dentro do grid. */
+.agency-content-area,
+.clients-content-area,
+.contas-content-area,
+.criar-conta > main,
+.adicionar-saldo > main {
+  min-height: 0;
+  overflow: hidden;
 }
 
 .submit-button {
@@ -259,5 +306,58 @@ input::placeholder {
 
   .form-panel {
     padding: 52px 28px 64px;
+  }
+}
+
+/* ALTERADO: encaixa o Login inteiro em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+  .login-page {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .brand-panel {
+    padding: 5vh 7vw;
+  }
+
+  .brand-mark {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 24px;
+  }
+
+  .brand-panel h1 {
+    font-size: 48px;
+  }
+
+  .brand-copy {
+    margin-top: 18px;
+    font-size: 14px;
+  }
+
+  .brand-line {
+    margin: 28px 0 12px;
+  }
+
+  .form-panel {
+    padding: 24px 7vw;
+  }
+
+  .form-panel h2 {
+    font-size: 38px;
+  }
+
+  .form-intro {
+    margin: 10px 0 24px;
+  }
+
+  input {
+    height: 42px;
+    margin-bottom: 8px;
+  }
+
+  .security-note {
+    margin-top: 16px;
   }
 }

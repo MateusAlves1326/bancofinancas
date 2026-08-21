@@ -120,9 +120,10 @@ function Reversoes() {
     }
 
     return (
-        <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
+        <div className={`agency-layout ${sidebarOpen ? 'sidebar-open' : ''}`}>
             <Header onMenuClick={handleMenuClick} />
             {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+            <div className="agency-content-area">
                 <main className="agency-main">
                     <div className="agency-heading">
                         <p className="agency-eyebrow">Operacoes</p>
@@ -219,6 +220,7 @@ function Reversoes() {
                         )}
                     </section>
                 </main>
+            </div>
             
             {reversaoSelecionada && (
                 <div className="reversao-modal-backdrop" role="presentation" onMouseDown={() => !isUpdating && setReversaoSelecionada(null)}>

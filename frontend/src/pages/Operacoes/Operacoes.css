@@ -113,6 +113,25 @@
   }
 }
 
+/* ALTERADO: compacta a tabela em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+  .agency-main {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .operacoes-section,
+  .operacoes-operacoes {
+    margin-top: 24px;
+  }
+
+  .operacoes-table th,
+  .operacoes-table td {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+}
+
 .operacoes-search-label {
   display: block;
   margin: 28px 0 8px;
@@ -286,7 +305,9 @@
     'content';
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
   background: #f4f0e9;
 }
 

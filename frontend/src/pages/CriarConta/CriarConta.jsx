@@ -132,12 +132,10 @@ function CriarConta() {
     }
 
     return (
-        <div className="criar-conta">
-            <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                <Header onMenuClick={handleMenuClick} />
-                {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
-
-                <main>
+        <div className={`criar-conta ${sidebarOpen ? 'sidebar-open' : ''}`}>
+            <Header onMenuClick={handleMenuClick} />
+            {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+            <main>
                     <h1>Criar Conta</h1>
 
                     {erro && (
@@ -235,8 +233,7 @@ function CriarConta() {
                         </button>
 
                     </form>
-                </main>
-            </div>
+            </main>
         </div>
             );
 }

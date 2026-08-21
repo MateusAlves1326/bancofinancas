@@ -140,6 +140,42 @@
 	}
 }
 
+/* ALTERADO: encaixa o formulario inteiro em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+	.criar-conta > main {
+		padding: 24px clamp(24px, 5vw, 64px) 28px;
+	}
+
+	.criar-conta h1 {
+		font-size: 42px;
+	}
+
+	.criar-conta form {
+		gap: 12px 20px;
+		margin-top: 20px;
+		padding: 20px;
+	}
+
+	.criar-conta h2 {
+		margin-top: 4px;
+		padding-bottom: 6px;
+		font-size: 21px;
+	}
+
+	.criar-conta h2:not(:first-of-type) {
+		margin-top: 8px;
+	}
+
+	.criar-conta input {
+		min-height: 36px;
+	}
+
+	.criar-conta button[type='submit'] {
+		min-height: 40px;
+		margin-top: 3px;
+	}
+}
+
 @media (max-width: 560px) {
 	.criar-conta form {
 		grid-template-columns: 1fr;

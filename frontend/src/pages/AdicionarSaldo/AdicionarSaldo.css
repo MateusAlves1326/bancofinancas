@@ -117,3 +117,29 @@
         grid-column: auto;
     }
 }
+
+/* ALTERADO: compacta o formulario em monitores com pouca altura. */
+@media (max-height: 800px) and (min-width: 801px) {
+    .adicionar-saldo > main {
+        padding: 24px clamp(24px, 5vw, 64px) 28px;
+    }
+
+    .adicionar-saldo h1 {
+        font-size: 42px;
+    }
+
+    .adicionar-saldo form {
+        gap: 12px 20px;
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .adicionar-saldo input {
+        min-height: 36px;
+    }
+
+    .adicionar-saldo button[type='submit'] {
+        min-height: 40px;
+        margin-top: 3px;
+    }
+}
