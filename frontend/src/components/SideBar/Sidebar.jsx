@@ -26,7 +26,7 @@ const menuGroups = [
 	},
 ];
 
-function Sidebar() {
+function Sidebar({ onMenuClick }) {
 	const navigate = useNavigate();
 
 	function handleLogout() {
@@ -37,7 +37,18 @@ function Sidebar() {
 	return (
 		<aside className="sidebar" aria-label="Navegacao da agencia">
 			<div className="sidebar-brand">
-				<div className="sidebar-brand-mark" aria-hidden="true">BF</div>
+				{onMenuClick ? (
+					<button
+						className="sidebar-brand-mark"
+						onClick={onMenuClick}
+						type="button"
+						aria-label="Fechar menu"
+					>
+						BF
+					</button>
+				) : (
+					<div className="sidebar-brand-mark" aria-hidden="true">BF</div>
+				)}
 				<div>
 					<strong>Banco</strong>
 					<span>Finanças</span>

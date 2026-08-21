@@ -20,9 +20,12 @@
     display: grid;
     width: 42px;
     height: 42px;
+    padding: 0;
     place-items: center;
     border: 1px solid rgba(247, 243, 236, 0.55);
     color: #f4c095;
+    background: transparent;
+    cursor: pointer;
     font: 700 13px Arial, sans-serif;
     letter-spacing: 1px;
 }

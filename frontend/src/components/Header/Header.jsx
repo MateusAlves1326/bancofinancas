@@ -1,11 +1,17 @@
 import './Header.css';
 
-function Header() {
+function Header({ onMenuClick }) {
     return (
         <header className="header">
-            <div className="brand-mark">
+            <button
+                className="brand-mark"
+                onClick={onMenuClick}
+                type="button"
+                aria-label="Abrir menu"
+            >
                 <span className="brand-mark-text">BF</span>
-            </div>
+            </button>
+
             <span className="brand-name">Banco Finanças</span>
         </header>
     );

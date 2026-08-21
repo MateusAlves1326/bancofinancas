@@ -19,6 +19,11 @@ function Contas() {
     const [contaSelecionada, setContaSelecionada] = useState(null);
     const [acaoModal, setAcaoModal] = useState(null);
     const [isUpdating, setIsUpdating] = useState(false);
+     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+      function handleMenuClick(){
+    setSidebarOpen((previousValue) => !previousValue);
+  }
 
     const contasFiltradas = contas.filter((conta) => {
         const termo = searchTerm.trim().toLowerCase();
@@ -124,10 +129,12 @@ function Contas() {
         carregarContas();
     }, [navigate]);
     return (
-        <div className="agency-layout">
-            <Sidebar />
+        <div className={`contas-layout${sidebarOpen ? ' sidebar-open' : ''}`}> {/* ALTERADO */}
+      {/* ALTERADO: o Header fica no grid principal e abre a Sidebar. */}
+      <Header onMenuClick={handleMenuClick} />
+      {/* ALTERADO: a Sidebar so existe quando esta aberta; o BF interno fecha. */}
+      {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
             <div className="agency-content-area">
-                <Header />
                 <main className="agency-main">
                     <div className="agency-heading">
                         <p className="agency-eyebrow">Contas</p>

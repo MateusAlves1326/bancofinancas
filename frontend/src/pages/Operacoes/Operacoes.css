@@ -170,3 +170,202 @@
   cursor: default;
   opacity: 0.45;
 }
+
+
+.operacoes-layout {
+  /* ALTERADO: o grid pertence ao layout da pagina, nao a tabela de clientes. */
+  display: grid;
+  width: 100%;
+  max-width: none;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background: #f4f0e9;
+}
+
+.operacoes-layout.sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.operacoes-layout > .sidebar {
+  grid-area: sidebar;
+}
+
+.operacoes-layout > .header {
+  grid-area: header;
+  /* ALTERADO: garante que o Header ocupe toda a largura disponivel. */
+  width: 100%;
+  min-height: 64px;
+}
+
+.operacoes-content-area {
+  /* ALTERADO: evita que regras antigas limitem a largura do conteudo. */
+  width: 100%;
+}
+
+.operacoes-operacoes {
+  /* ALTERADO: esta secao e uma tabela, nao um segundo layout de pagina. */
+  width: 100%;
+}
+
+/* ALTERADO: recupera o espaco e a largura visual da pagina de clientes. */
+.operacoes-main {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  padding: 56px clamp(28px, 5vw, 76px);
+}
+
+.operacoes-heading h1 {
+  margin: 0;
+  color: #172b4d;
+  font: 400 clamp(38px, 5vw, 58px)/1 Georgia, 'Times New Roman', serif;
+}
+
+.operacoes-heading > p:last-child {
+  margin: 16px 0 0;
+  color: #607080;
+  font: 15px/1.6 Arial, sans-serif;
+}
+
+.operacoes-operacoes {
+  margin-top: 44px;
+  border-top: 3px solid #bb7454;
+  background: #fffdf9;
+}
+
+.recent-operations {
+  margin-top: 28px;
+}
+
+.recent-operation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e7dfd5;
+  font-family: Arial, sans-serif;
+}
+
+.recent-operation:first-child {
+  border-top: 1px solid #e7dfd5;
+}
+
+.recent-operation > div,
+.recent-operation-details {
+  display: grid;
+  gap: 5px;
+}
+
+.recent-operation strong {
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.recent-operation span {
+  color: #607080;
+  font-size: 12px;
+}
+
+.recent-operation-details {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+/* ALTERADO: prepara o layout de Operacoes para o estado fechado e sidebar-open. */
+.agency-layout:has(.operacoes-section) {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background: #f4f0e9;
+}
+
+.agency-layout:has(.operacoes-section).sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.agency-layout:has(.operacoes-section) > .sidebar {
+  grid-area: sidebar;
+}
+
+.agency-layout:has(.operacoes-section) > .header {
+  grid-area: header;
+  width: 100%;
+}
+
+.agency-layout:has(.operacoes-section) > .agency-content-area {
+  grid-area: content;
+  min-width: 0;
+}
+
+@media (max-width: 800px) {
+  /* ALTERADO: prepara o layout responsivo de Operacoes. */
+  .agency-layout:has(.operacoes-section),
+  .agency-layout:has(.operacoes-section).sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .clients-layout {
+    /* ALTERADO: no mobile a Sidebar fica acima do conteudo. */
+    display: grid;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .clients-layout.sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+  }
+
+  .clients-main {
+    padding: 40px 24px;
+  }
+
+  .clients-summary {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+
+  .recent-operation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recent-operation-details {
+    text-align: left;
+  }
+}
+
+.clients-layout > .clients-content-area {
+  /* ALTERADO: o wrapper passa a ocupar a area de conteudo do grid. */
+  grid-area: content;
+  min-width: 0;
+} 

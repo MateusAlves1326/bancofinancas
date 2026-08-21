@@ -271,6 +271,39 @@
   margin-top: 24px;
 }
 
+/* ALTERADO: prepara o layout de Reversoes para o estado fechado e sidebar-open. */
+.agency-layout:has(.reversoes-section) {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background: #f4f0e9;
+}
+
+.agency-layout:has(.reversoes-section).sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.agency-layout:has(.reversoes-section) > .sidebar {
+  grid-area: sidebar;
+}
+
+.agency-layout:has(.reversoes-section) > .header {
+  grid-area: header;
+  width: 100%;
+}
+
+.agency-layout:has(.reversoes-section) > .agency-content-area {
+  grid-area: content;
+  min-width: 0;
+}
+
 @media (max-width: 800px) {
   .reversoes-section {
     margin-top: 32px;
@@ -302,5 +335,18 @@
   .reversoes-pagination {
     justify-content: center;
     padding: 16px 12px;
+  }
+}
+
+@media (max-width: 800px) {
+  /* ALTERADO: prepara o layout responsivo de Reversoes. */
+  .agency-layout:has(.reversoes-section),
+  .agency-layout:has(.reversoes-section).sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
   }
 }

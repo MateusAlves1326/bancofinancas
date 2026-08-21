@@ -15,6 +15,11 @@ function Operacoes() {
   const [errorMessage, setErrorMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  function handleMenuClick() {
+    setSidebarOpen((previousValue) => !previousValue);
+  }
 
   const filteredOperacoesMemo = operacoes.filter((operacao) => {
     const termo = searchTerm.trim().toLowerCase();
@@ -67,10 +72,10 @@ function Operacoes() {
     carregarOperacoes();
   }, [navigate]);
   return (
-    <div className="agency-layout">
-      <Sidebar />
-      <div className="agency-content-area">
-        <Header />
+    <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
+            <Header onMenuClick={handleMenuClick} />
+            {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+      
         <main className="agency-main">
           <div className="agency-heading">
             <p className="agency-eyebrow">Operações</p>
@@ -157,7 +162,7 @@ function Operacoes() {
             </section>
         </main>
       </div>
-    </div>
+    
   );
 }
 

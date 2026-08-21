@@ -9,7 +9,11 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 function CriarConta() {
     const navigate = useNavigate();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    function handleMenuClick() {
+        setSidebarOpen((prev) => !prev);
+    }
 
     const [cliente, setCliente] = useState({
         nome: '',
@@ -111,9 +115,11 @@ function CriarConta() {
                 );
             }
 
-            {!loading && erro && (
-              <p className="clients-feedback error" role="alert">{erro}</p>
-            )}
+            {
+                !loading && erro && (
+                    <p className="clients-feedback error" role="alert">{erro}</p>
+                )
+            }
 
             navigate('/agente/contas');
 
@@ -127,110 +133,112 @@ function CriarConta() {
 
     return (
         <div className="criar-conta">
-            <Header />
-            <Sidebar />
+            <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
+                <Header onMenuClick={handleMenuClick} />
+                {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
 
-            <main>
-                <h1>Criar Conta</h1>
+                <main>
+                    <h1>Criar Conta</h1>
 
-                {erro && (
-                    <p className="erro">
-                        {erro}
-                    </p>
-                )}
+                    {erro && (
+                        <p className="erro">
+                            {erro}
+                        </p>
+                    )}
 
-                <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
 
-                    <h2>Dados do Cliente</h2>
+                        <h2>Dados do Cliente</h2>
 
-                    <div>
-                        <label>Nome</label>
-                        <input
-                            type="text"
-                            name="nome"
-                            value={cliente.nome}
-                            onChange={handleClienteChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Nome</label>
+                            <input
+                                type="text"
+                                name="nome"
+                                value={cliente.nome}
+                                onChange={handleClienteChange}
+                                required
+                            />
+                        </div>
 
-                    <div>
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={cliente.email}
-                            onChange={handleClienteChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={cliente.email}
+                                onChange={handleClienteChange}
+                                required
+                            />
+                        </div>
 
-                    <div>
-                        <label>Telefone</label>
-                        <input
-                            type="text"
-                            name="telefone"
-                            value={cliente.telefone}
-                            onChange={handleClienteChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Telefone</label>
+                            <input
+                                type="text"
+                                name="telefone"
+                                value={cliente.telefone}
+                                onChange={handleClienteChange}
+                                required
+                            />
+                        </div>
 
-                    <div>
-                        <label>CPF</label>
-                        <input
-                            type="text"
-                            name="cpf"
-                            value={cliente.cpf}
-                            onChange={handleClienteChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>CPF</label>
+                            <input
+                                type="text"
+                                name="cpf"
+                                value={cliente.cpf}
+                                onChange={handleClienteChange}
+                                required
+                            />
+                        </div>
 
-                    <h2>Dados da Conta</h2>
+                        <h2>Dados da Conta</h2>
 
-                    <div>
-                        <label>Agência</label>
-                        <input
-                            type="number"
-                            name="agenciaId"
-                            value={conta.agenciaId}
-                            onChange={handleContaChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Agência</label>
+                            <input
+                                type="number"
+                                name="agenciaId"
+                                value={conta.agenciaId}
+                                onChange={handleContaChange}
+                                required
+                            />
+                        </div>
 
-                    <div>
-                        <label>Número da Conta</label>
-                        <input
-                            type="number"
-                            name="numero"
-                            value={conta.numero}
-                            onChange={handleContaChange}
-                            required
-                        />
-                    </div>
+                        <div>
+                            <label>Número da Conta</label>
+                            <input
+                                type="number"
+                                name="numero"
+                                value={conta.numero}
+                                onChange={handleContaChange}
+                                required
+                            />
+                        </div>
 
-                    <div>
-                        <label>Saldo Inicial</label>
-                        <input
-                            type="number"
-                            name="saldo"
-                            value={conta.saldo}
-                            onChange={handleContaChange}
-                            min="0"
-                            step="0.01"
-                        />
-                    </div>
+                        <div>
+                            <label>Saldo Inicial</label>
+                            <input
+                                type="number"
+                                name="saldo"
+                                value={conta.saldo}
+                                onChange={handleContaChange}
+                                min="0"
+                                step="0.01"
+                            />
+                        </div>
 
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Criando...' : 'Criar Cliente e Conta'}
-                    </button>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Criando...' : 'Criar Cliente e Conta'}
+                        </button>
 
-                </form>
-            </main>
+                    </form>
+                </main>
+            </div>
         </div>
-    );
+            );
 }
 
-export default CriarConta;
+            export default CriarConta;

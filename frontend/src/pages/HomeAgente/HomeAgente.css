@@ -1,11 +1,35 @@
 .agency-layout {
-  display: flex;
+  /* ALTERADO: o grid permite abrir a Sidebar sem comprimir o Header incorretamente. */
+  display: grid;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   min-height: 100vh;
   background: #f4f0e9;
 }
 
+/* ALTERADO: quando aberto, a Sidebar ganha sua propria coluna. */
+.agency-layout.sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+/* ALTERADO: associa cada filho direto a area correta do grid. */
+.agency-layout > .sidebar {
+  grid-area: sidebar;
+}
+
+.agency-layout > .header {
+  grid-area: header;
+}
+
 .agency-content-area {
-  flex: 1;
+  /* ALTERADO: o wrapper do conteudo ocupa a area principal. */
+  grid-area: content;
   min-width: 0;
 }
 
@@ -93,9 +117,63 @@
   text-align: center;
 }
 
+.recent-operations {
+  margin-top: 28px;
+}
+
+.recent-operation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e7dfd5;
+  font-family: Arial, sans-serif;
+}
+
+.recent-operation:first-child {
+  border-top: 1px solid #e7dfd5;
+}
+
+.recent-operation > div,
+.recent-operation-details {
+  display: grid;
+  gap: 5px;
+}
+
+.recent-operation strong {
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.recent-operation span {
+  color: #607080;
+  font-size: 12px;
+}
+
+.recent-operation-details {
+  flex-shrink: 0;
+  text-align: right;
+}
+
 @media (max-width: 800px) {
   .agency-layout {
-    display: block;
+    /* ALTERADO: no mobile a Sidebar fica acima do conteudo. */
+    display: grid;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .agency-layout.sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
   }
 
   .agency-main {
@@ -105,5 +183,15 @@
   .agency-summary {
     grid-template-columns: 1fr;
     margin-top: 34px;
+  }
+
+  .recent-operation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recent-operation-details {
+    text-align: left;
   }
 }

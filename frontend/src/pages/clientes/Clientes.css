@@ -1,5 +1,67 @@
-.agency-clients {
-  margin-top: 42px;
+.clients-layout {
+  /* ALTERADO: o grid pertence ao layout da pagina, nao a tabela de clientes. */
+  display: grid;
+  width: 100%;
+  max-width: none;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background: #f4f0e9;
+}
+
+.clients-layout.sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+/* ALTERADO: associa cada filho direto a area correta do grid. */
+.clients-layout > .sidebar {
+  grid-area: sidebar;
+}
+
+.clients-layout > .header {
+  grid-area: header;
+  /* ALTERADO: garante que o Header ocupe toda a largura disponivel. */
+  width: 100%;
+  min-height: 64px;
+}
+
+.clients-content-area {
+  /* ALTERADO: evita que regras antigas limitem a largura do conteudo. */
+  width: 100%;
+}
+
+.clients-clients {
+  /* ALTERADO: esta secao e uma tabela, nao um segundo layout de pagina. */
+  width: 100%;
+}
+
+/* ALTERADO: recupera o espaco e a largura visual da pagina de clientes. */
+.clients-main {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  padding: 56px clamp(28px, 5vw, 76px);
+}
+
+.clients-heading h1 {
+  margin: 0;
+  color: #172b4d;
+  font: 400 clamp(38px, 5vw, 58px)/1 Georgia, 'Times New Roman', serif;
+}
+
+.clients-heading > p:last-child {
+  margin: 16px 0 0;
+  color: #607080;
+  font: 15px/1.6 Arial, sans-serif;
+}
+
+.clients-clients {
+  margin-top: 44px;
   border-top: 3px solid #bb7454;
   background: #fffdf9;
 }
@@ -105,3 +167,88 @@
   cursor: default;
   opacity: 0.45;
 }
+
+.recent-operations {
+  margin-top: 28px;
+}
+
+.recent-operation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e7dfd5;
+  font-family: Arial, sans-serif;
+}
+
+.recent-operation:first-child {
+  border-top: 1px solid #e7dfd5;
+}
+
+.recent-operation > div,
+.recent-operation-details {
+  display: grid;
+  gap: 5px;
+}
+
+.recent-operation strong {
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.recent-operation span {
+  color: #607080;
+  font-size: 12px;
+}
+
+.recent-operation-details {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+@media (max-width: 800px) {
+  .clients-layout {
+    /* ALTERADO: no mobile a Sidebar fica acima do conteudo. */
+    display: grid;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .clients-layout.sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+  }
+
+  .clients-main {
+    padding: 40px 24px;
+  }
+
+  .clients-summary {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+
+  .recent-operation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recent-operation-details {
+    text-align: left;
+  }
+}
+
+.clients-layout > .clients-content-area {
+  /* ALTERADO: o wrapper passa a ocupar a area de conteudo do grid. */
+  grid-area: content;
+  min-width: 0;
+} 

@@ -18,6 +18,11 @@ function Reversoes() {
     const [reversaoSelecionada, setReversaoSelecionada] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [paginaAtual, setPaginaAtual] = useState(1);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    function handleMenuClick() {
+        setSidebarOpen((previousValue) => !previousValue);
+    }
 
     const reversoesFiltradas = reversoes.filter((reversao) => {
         const termo = searchTerm.trim().toLowerCase();
@@ -115,10 +120,9 @@ function Reversoes() {
     }
 
     return (
-        <div className="agency-layout">
-            <Sidebar />
-            <div className="agency-content-area">
-                <Header />
+        <div className={`adicionar-saldo ${sidebarOpen ? 'sidebar-open' : ''}`}>
+            <Header onMenuClick={handleMenuClick} />
+            {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
                 <main className="agency-main">
                     <div className="agency-heading">
                         <p className="agency-eyebrow">Operacoes</p>
@@ -215,7 +219,7 @@ function Reversoes() {
                         )}
                     </section>
                 </main>
-            </div>
+            
             {reversaoSelecionada && (
                 <div className="reversao-modal-backdrop" role="presentation" onMouseDown={() => !isUpdating && setReversaoSelecionada(null)}>
                     <section

@@ -155,3 +155,30 @@
 		margin-top: 10px;
 	}
 }
+
+/* ALTERADO: prepara a troca entre Sidebar fechada e aberta. */
+.criar-conta:not(.sidebar-open) {
+	grid-template-areas:
+		'header'
+		'main';
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.criar-conta.sidebar-open {
+	grid-template-areas:
+		'sidebar header'
+		'sidebar main';
+	grid-template-columns: 248px minmax(0, 1fr);
+}
+
+@media (max-width: 800px) {
+	/* ALTERADO: prepara a troca responsiva entre Sidebar fechada e aberta. */
+	.criar-conta:not(.sidebar-open),
+	.criar-conta.sidebar-open {
+		grid-template-areas:
+			'header'
+			'sidebar'
+			'main';
+		grid-template-columns: 1fr;
+	}
+}

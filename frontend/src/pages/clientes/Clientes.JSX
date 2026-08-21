@@ -15,6 +15,12 @@ function Clientes() {
   const [errorMessage, setErrorMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // ALTERADO: usa o mesmo callback para abrir e fechar a Sidebar pelos botoes BF.
+  function handleMenuClick(){
+    setSidebarOpen((previousValue) => !previousValue);
+  }
 
   const clientesFiltrados = clientes.filter((cliente) => {
     const termo = searchTerm.trim().toLowerCase();
@@ -66,12 +72,14 @@ function Clientes() {
   }, [navigate]);
 
   return (
-    <div className="agency-layout">
-      <Sidebar />
-      <div className="agency-content-area">
-        <Header />
-        <main className="agency-main">
-          <div className="agency-heading">
+    <div className={`clients-layout${sidebarOpen ? ' sidebar-open' : ''}`}> {/* ALTERADO */}
+      {/* ALTERADO: o Header fica no grid principal e abre a Sidebar. */}
+      <Header onMenuClick={handleMenuClick} />
+      {/* ALTERADO: a Sidebar so existe quando esta aberta; o BF interno fecha. */}
+      {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+      <div className="clients-content-area">
+        <main className="clients-main">
+          <div className="clients-heading">
             <p className="agency-eyebrow">Clientes</p>
             <h1>Lista de clientes</h1>
             <label className="clients-search-label" htmlFor="clientes-search">
@@ -90,7 +98,7 @@ function Clientes() {
             />
             <p>Aqui você pode visualizar e gerenciar os clientes cadastrados na sua agência.</p>
           </div>
-          <section className="agency-clients" aria-label="Lista de clientes">
+          <section className="clients-clients" aria-label="Lista de clientes">
             {isLoading && <p className="clients-feedback">Carregando clientes...</p>}
 
             {!isLoading && errorMessage && (

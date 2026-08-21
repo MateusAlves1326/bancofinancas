@@ -6,6 +6,7 @@ import Contas from './pages/Contas/Contas';
 import Operacoes from './pages/Operacoes/Operacoes';
 import Reversoes from './pages/Reversoes/Reversoes';
 import CriarConta from './pages/CriarConta/CriarConta';
+import AdicionarSaldo from './pages/AdicionarSaldo/AdicionarSaldo';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/agente/contas/criar" element={<CriarConta />} />
             <Route path="/agente/operacoes" element={<Operacoes />} />
             <Route path="/agente/reversoes" element={<Reversoes />} />
+            <Route path="/agente/contas/saldo" element={<AdicionarSaldo />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
     );

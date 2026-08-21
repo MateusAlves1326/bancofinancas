@@ -1,18 +1,80 @@
-.contas-section {
-  margin-top: 42px;
+.contas-layout {
+  /* ALTERADO: o grid pertence ao layout da pagina, nao a tabela de clientes. */
+  display: grid;
+  width: 100%;
+  max-width: none;
+  grid-template-areas:
+    'header'
+    'content';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  background: #f4f0e9;
+}
+
+.contas-layout.sidebar-open {
+  grid-template-areas:
+    'sidebar header'
+    'sidebar content';
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+
+/* ALTERADO: associa cada filho direto a area correta do grid. */
+.contas-layout > .sidebar {
+  grid-area: sidebar;
+}
+
+.contas-layout > .header {
+  grid-area: header;
+  /* ALTERADO: garante que o Header ocupe toda a largura disponivel. */
+  width: 100%;
+  min-height: 64px;
+}
+
+.contas-content-area {
+  /* ALTERADO: evita que regras antigas limitem a largura do conteudo. */
+  width: 100%;
+}
+
+.contas-contas {
+  /* ALTERADO: esta secao e uma tabela, nao um segundo layout de pagina. */
+  width: 100%;
+}
+
+/* ALTERADO: recupera o espaco e a largura visual da pagina de clientes. */
+.contas-main {
+  width: min(100%, 1280px);
+  margin: 0 auto;
+  padding: 56px clamp(28px, 5vw, 76px);
+}
+
+.contas-heading h1 {
+  margin: 0;
+  color: #172b4d;
+  font: 400 clamp(38px, 5vw, 58px)/1 Georgia, 'Times New Roman', serif;
+}
+
+.contas-heading > p:last-child {
+  margin: 16px 0 0;
+  color: #607080;
+  font: 15px/1.6 Arial, sans-serif;
+}
+
+.contas-contas {
+  margin-top: 44px;
   border-top: 3px solid #bb7454;
   background: #fffdf9;
 }
 
 .contas-feedback {
   margin: 0;
-  padding: 64px 24px;
+  padding: 56px 24px;
   color: #8a8b88;
-  font: 14px/1.5 Arial, sans-serif;
+  font: 14px Arial, sans-serif;
   text-align: center;
 }
 
-.contas-error {
+.contas-feedback.error {
   color: #a33d38;
 }
 
@@ -22,7 +84,7 @@
 
 .contas-table {
   width: 100%;
-  min-width: 780px;
+  min-width: 700px;
   border-collapse: collapse;
   color: #172b4d;
   font: 14px Arial, sans-serif;
@@ -30,7 +92,7 @@
 
 .contas-table th,
 .contas-table td {
-  padding: 17px 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid #e6dfd5;
   text-align: left;
   white-space: nowrap;
@@ -44,73 +106,8 @@
   text-transform: uppercase;
 }
 
-.contas-table td:nth-child(1),
-.contas-table td:nth-child(4) {
-  color: #607080;
-  font-variant-numeric: tabular-nums;
-}
-
-.contas-table td:nth-child(3) {
-  color: #2e7058;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.contas-table tbody tr {
-  transition: background 160ms ease;
-}
-
 .contas-table tbody tr:hover {
   background: #fcf8f2;
-}
-
-.contas-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.contas-action-button {
-  padding: 8px 11px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  font: 700 11px Arial, sans-serif;
-  cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
-}
-
-.contas-action-button.block {
-  color: #a33d38;
-  border-color: #d9a6a1;
-  background: #fff5f3;
-}
-
-.contas-action-button.block:hover {
-  background: #f7dfdb;
-}
-
-.contas-action-button.unblock {
-  color: #2e7058;
-  border-color: #a9cbbb;
-  background: #f2faf5;
-}
-
-.contas-action-button.unblock:hover {
-  background: #dcefe3;
-}
-
-@media (max-width: 800px) {
-  .contas-section {
-    margin-top: 32px;
-  }
-
-  .contas-table {
-    min-width: 720px;
-  }
-
-  .contas-table th,
-  .contas-table td {
-    padding: 14px 16px;
-  }
 }
 
 .contas-search-label {
@@ -170,3 +167,88 @@
   cursor: default;
   opacity: 0.45;
 }
+
+.recent-operations {
+  margin-top: 28px;
+}
+
+.recent-operation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e7dfd5;
+  font-family: Arial, sans-serif;
+}
+
+.recent-operation:first-child {
+  border-top: 1px solid #e7dfd5;
+}
+
+.recent-operation > div,
+.recent-operation-details {
+  display: grid;
+  gap: 5px;
+}
+
+.recent-operation strong {
+  color: #172b4d;
+  font-size: 14px;
+}
+
+.recent-operation span {
+  color: #607080;
+  font-size: 12px;
+}
+
+.recent-operation-details {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+@media (max-width: 800px) {
+  .contas-layout {
+    /* ALTERADO: no mobile a Sidebar fica acima do conteudo. */
+    display: grid;
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .contas-layout.sidebar-open {
+    grid-template-areas:
+      'header'
+      'sidebar'
+      'content';
+    grid-template-columns: 1fr;
+  }
+
+  .contas-main {
+    padding: 40px 24px;
+  }
+
+  .contas-summary {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+
+  .recent-operation {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .recent-operation-details {
+    text-align: left;
+  }
+}
+
+.contas-layout > .contas-content-area {
+  /* ALTERADO: o wrapper passa a ocupar a area de conteudo do grid. */
+  grid-area: content;
+  min-width: 0;
+} 

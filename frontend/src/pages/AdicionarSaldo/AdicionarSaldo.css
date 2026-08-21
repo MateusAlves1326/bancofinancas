@@ -1,0 +1,119 @@
+.adicionar-saldo {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'main';
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    background: #f4f0e9;
+}
+
+.adicionar-saldo.sidebar-open {
+    grid-template-areas:
+        'sidebar header'
+        'sidebar main';
+    grid-template-columns: 248px minmax(0, 1fr);
+}
+
+.adicionar-saldo > .sidebar {
+    grid-area: sidebar;
+}
+
+.adicionar-saldo > .header {
+    grid-area: header;
+}
+
+.adicionar-saldo > main {
+    grid-area: main;
+    width: min(100%, 920px);
+    margin: 0 auto;
+    padding: 52px clamp(24px, 5vw, 72px) 72px;
+}
+
+.adicionar-saldo h1 {
+    margin: 0;
+    color: #172b4d;
+    font: 400 clamp(36px, 5vw, 56px)/1 Georgia, 'Times New Roman', serif;
+}
+
+.adicionar-saldo form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 24px;
+    margin-top: 38px;
+    padding: 32px;
+    border-top: 3px solid #bb7454;
+    background: #fffdf9;
+    box-shadow: 0 12px 30px rgba(18, 48, 74, 0.06);
+}
+
+.adicionar-saldo form > div {
+    display: grid;
+    gap: 7px;
+}
+
+.adicionar-saldo label {
+    color: #607080;
+    font: 700 12px Arial, sans-serif;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.adicionar-saldo input {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 0 13px;
+    border: 1px solid #ddd5ca;
+    border-radius: 3px;
+    color: #172b4d;
+    background: #fff;
+    font: 15px Arial, sans-serif;
+}
+
+.adicionar-saldo button[type='submit'] {
+    grid-column: 1 / -1;
+    justify-self: start;
+    min-height: 46px;
+    margin-top: 8px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 4px;
+    color: #fffaf3;
+    background: #12304a;
+    cursor: pointer;
+    font: 700 14px Arial, sans-serif;
+}
+
+.adicionar-saldo [role='alert'] {
+    color: #8e302b;
+    font: 14px Arial, sans-serif;
+}
+
+@media (max-width: 800px) {
+    .adicionar-saldo,
+    .adicionar-saldo.sidebar-open {
+        grid-template-areas:
+            'header'
+            'sidebar'
+            'main';
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr;
+    }
+
+    .adicionar-saldo > main {
+        padding: 40px 24px 56px;
+    }
+}
+
+@media (max-width: 560px) {
+    .adicionar-saldo form {
+        grid-template-columns: 1fr;
+        padding: 24px 20px;
+    }
+
+    .adicionar-saldo button[type='submit'] {
+        grid-column: auto;
+    }
+}
