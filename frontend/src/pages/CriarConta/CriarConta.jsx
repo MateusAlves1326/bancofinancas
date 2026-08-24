@@ -149,17 +149,25 @@ function CriarConta() {
                 endereco.uf,
             ].filter(Boolean).join(', ');
 
-            // 1. Criar o cliente
-            const clienteResponse = await fetch(`${API_URL}/clientes`, {
+            const payload = {
+                nome: cliente.nome,
+                email: cliente.email,
+                telefone: cliente.telefone,
+                cpf: cliente.cpf,
+                endereco: enderecoCompleto,
+                agenciaId: Number(conta.agenciaId),
+                numero: Number(conta.numero),
+                saldo: Number(conta.saldo),
+                senha: senhaCliente
+            };
+
+            const clienteResponse = await fetch(`${API_URL}/clientes/com-conta`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    ...cliente,
-                    endereco: enderecoCompleto,
-                })
+                body: JSON.stringify(payload)
             });
 
             if (clienteResponse.status === 401 || clienteResponse.status === 403) {
@@ -169,40 +177,14 @@ function CriarConta() {
             }
 
             if (!clienteResponse.ok) {
-                throw new Error('Erro ao cadastrar cliente');
+                const body = await clienteResponse.json().catch(() => ({}));
+                throw new Error(body.message || 'Erro ao cadastrar cliente e conta');
             }
 
             const clienteCriado = await clienteResponse.json();
 
-            // 2. O backend retorna o identificador como idCustomer
-            const clienteId = clienteCriado.idCustomer;
-
-            if (!clienteId) {
+            if (!clienteCriado || !clienteCriado.idCustomer) {
                 throw new Error('A API não retornou o ID do cliente');
-            }
-
-            // 3. Criar a conta vinculada ao cliente
-            const contaResponse = await fetch(`${API_URL}/agentes/contas`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    clienteId: clienteId,
-                    agenciaId: Number(conta.agenciaId),
-                    numero: Number(conta.numero),
-                    saldo: Number(conta.saldo),
-                    senha: senhaCliente
-                })
-            });
-
-            const contaBody = await contaResponse.json().catch(() => ({}));
-
-            if (!contaResponse.ok) {
-                throw new Error(
-                    contaBody.message || 'Cliente criado, mas ocorreu um erro ao criar a conta',
-                );
             }
 
             {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import acc.br.bancofinancas.dto.ClienteResponse;
+import acc.br.bancofinancas.dto.CreateClienteComContaRequest;
 import acc.br.bancofinancas.dto.CreateClienteRequest;
 import acc.br.bancofinancas.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,5 +41,11 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<ClienteResponse> create(@Valid @RequestBody CreateClienteRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createCliente(request));
+    }
+
+    @Operation(summary = "Cadastrar cliente e conta em uma operação única", description = "Cria o cliente e a conta corrente juntos, garantindo rollback em caso de falha.")
+    @PostMapping("/com-conta")
+    public ResponseEntity<ClienteResponse> createComConta(@Valid @RequestBody CreateClienteComContaRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.createClienteComConta(request));
     }
 }

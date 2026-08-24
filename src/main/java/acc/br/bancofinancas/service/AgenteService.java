@@ -57,9 +57,14 @@ public class AgenteService {
             return;
         }
 
-        if (user.getRole() != Role.AGENCIA
-                || user.getAgenciaId() == null
-                || agencia.getIdAgency() != user.getAgenciaId()) {
+        boolean permitido = user.getRole() == Role.AGENCIA || user.getRole() == Role.ADMIN;
+
+        if (!permitido) {
+            throw new IllegalArgumentException("Usuário sem permissão para cadastrar agentes");
+        }
+
+        if (user.getRole() == Role.AGENCIA
+                && (user.getAgenciaId() == null || agencia.getIdAgency() != user.getAgenciaId())) {
             throw new IllegalArgumentException("Agência só pode cadastrar agentes da própria agência");
         }
     }

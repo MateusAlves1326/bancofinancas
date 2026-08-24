@@ -8,7 +8,8 @@ import Operacoes from './pages/Operacoes/Operacoes';
 import Reversoes from './pages/Reversoes/Reversoes';
 import CriarConta from './pages/CriarConta/CriarConta';
 import AdicionarSaldo from './pages/AdicionarSaldo/AdicionarSaldo';
-import ClienteArea from './pages/Cliente/Cliente';
+import ClienteArea from './pages/ClienteHome/ClienteHome';
+import Loja from './pages/Loja/Loja';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/clientes/login" element={<ClienteLogin />} />
             <Route path="/cliente" element={<ClienteArea />} />
+            <Route path="/loja" element={<Loja />} />
             <Route path="/agente" element={<HomeAgente />} />
             <Route path="/agente/clientes" element={<Clientes />} />
             <Route path="/agente/contas" element={<Contas />} />

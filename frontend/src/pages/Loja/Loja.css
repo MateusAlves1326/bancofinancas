@@ -1,0 +1,139 @@
+.loja-page {
+  padding: 1.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  color: #111827;
+}
+
+.loja-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.loja-page__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 0.2rem;
+}
+
+.loja-page__header h1 {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.loja-page__header p {
+  margin: 0.35rem 0 0;
+  color: #4b5563;
+}
+
+.loja-page__header button {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+}
+
+.loja-page__status {
+  margin-bottom: 0.9rem;
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+}
+
+.loja-page__status--error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.loja-page__status--ok {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.loja-page__card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.loja-page__card h2 {
+  margin: 0 0 0.7rem;
+}
+
+.loja-page__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.7rem;
+}
+
+.loja-page__form input,
+.loja-page__actions select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+}
+
+.loja-page__form button,
+.loja-page__actions button {
+  border: 0;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #fff;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+}
+
+.loja-page__actions .is-danger {
+  background: #b91c1c;
+}
+
+.loja-page__table-wrapper {
+  overflow-x: auto;
+}
+
+.loja-page__table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.loja-page__table-wrapper th,
+.loja-page__table-wrapper td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.loja-page__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 130px;
+}
+
+.loja-page button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@media (max-width: 700px) {
+  .loja-page {
+    padding: 1rem;
+  }
+
+  .loja-page__header {
+    flex-direction: column;
+  }
+}

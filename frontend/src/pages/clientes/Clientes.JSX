@@ -6,7 +6,7 @@ import '../HomeAgente/HomeAgente.css';
 import './Clientes.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const ITENS_POR_PAGINA = 5;
+const ITENS_POR_PAGINA = 10;
 
 function Clientes() {
   const navigate = useNavigate();
@@ -17,7 +17,6 @@ function Clientes() {
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // ALTERADO: usa o mesmo callback para abrir e fechar a Sidebar pelos botoes BF.
   function handleMenuClick(){
     setSidebarOpen((previousValue) => !previousValue);
   }

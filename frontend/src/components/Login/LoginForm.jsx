@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+function parseJwtPayload(token) {
+  try {
+    const payloadBase64 = token.split('.')[1]
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+    return JSON.parse(atob(payloadBase64));
+  } catch {
+    return null;
+  }
+}
+
 function LoginForm() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -33,7 +44,15 @@ function LoginForm() {
       }
 
       localStorage.setItem('bancofinancas.token', body.token);
-      navigate('/agente');
+      const subject = parseJwtPayload(body.token)?.sub;
+
+      if (subject && /^cliente-\d+$/i.test(subject)) {
+        navigate('/cliente');
+      } else if (subject && subject.toUpperCase() === 'LOJA') {
+        navigate('/loja');
+      } else {
+        navigate('/agente');
+      }
     } catch (error) {
       setStatus({ type: 'error', message: error.message || 'Erro de conexao com o servidor.' });
     } finally {
