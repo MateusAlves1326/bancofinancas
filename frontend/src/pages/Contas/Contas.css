@@ -207,6 +207,36 @@
   text-align: right;
 }
 
+.contas-action-button.block {
+  background: #f14545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+}
+
+.contas-action-button.block:hover:not(:disabled) {
+  color: #000000;
+  background: var(--accent);
+	transform: translateY(-1px);
+}
+
+.contas-action-button.unblock {
+  background: #53cf59;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 10px
+}
+
+.contas-action-button.unblock:hover:not(:disabled) {
+  color: #000000;
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+
 @media (max-width: 800px) {
   .contas-layout {
     /* ALTERADO: no mobile a Sidebar fica acima do conteudo. */

@@ -6,7 +6,7 @@ import Sidebar from '../../components/SideBar/Sidebar';
 import './Reversoes.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const ITENS_POR_PAGINA = 5;
+const ITENS_POR_PAGINA = 10;
 
 function Reversoes() {
     const navigate = useNavigate();

@@ -7,6 +7,10 @@ import './CriarConta.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+function gerarNumeroContaAleatorio() {
+    return String(Math.floor(10000 + Math.random() * 90000));
+}
+
 function CriarConta() {
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,7 +45,7 @@ function CriarConta() {
 
     const [conta, setConta] = useState({
         agenciaId: '',
-        numero: '',
+        numero: gerarNumeroContaAleatorio(),
         saldo: 0
     });
 
@@ -68,6 +72,15 @@ function CriarConta() {
 
     function handleContaChange(event) {
         const { name, value } = event.target;
+
+        if (name === 'numero') {
+            const numeroSomenteDigitos = value.replace(/\D/g, '').slice(0, 5);
+            setConta({
+                ...conta,
+                [name]: numeroSomenteDigitos
+            });
+            return;
+        }
 
         setConta({
             ...conta,
@@ -279,7 +292,7 @@ function CriarConta() {
                                 maxLength={8}
                                 placeholder="Somente números"
                             />
-                            <button type="button" onClick={handleBuscarCep} disabled={buscandoCep}>
+                            <button className='button-normal' type="button" onClick={handleBuscarCep} disabled={buscandoCep}>
                                 {buscandoCep ? 'Buscando...' : 'Buscar Endereço'}
                             </button>
                             {erroCep && <p className="erro">{erroCep}</p>}
@@ -346,7 +359,7 @@ function CriarConta() {
                                 readOnly
                                 style={{ background: '#f5f5f5' }}
                             />
-                            <button type="button" onClick={() => setSenhaCliente(String(Math.floor(1000 + Math.random() * 9000)))}>
+                            <button className='button-normal' type="button" onClick={() => setSenhaCliente(String(Math.floor(1000 + Math.random() * 9000)))}>
                                 Gerar nova senha
                             </button>
                         </div>
@@ -367,12 +380,21 @@ function CriarConta() {
                         <div>
                             <label>Número da Conta</label>
                             <input
-                                type="number"
+                                type="text"
                                 name="numero"
                                 value={conta.numero}
                                 onChange={handleContaChange}
+                                maxLength={5}
+                                inputMode="numeric"
                                 required
                             />
+                            <button
+                                className='button-normal'
+                                type="button"
+                                onClick={() => setConta((prev) => ({ ...prev, numero: gerarNumeroContaAleatorio() }))}
+                            >
+                                Gerar número
+                            </button>
                         </div>
 
                         <div>
