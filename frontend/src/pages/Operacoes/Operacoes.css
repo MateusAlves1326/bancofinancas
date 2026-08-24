@@ -297,7 +297,6 @@
   text-align: right;
 }
 
-/* ALTERADO: prepara o layout de Operacoes para o estado fechado e sidebar-open. */
 .agency-layout:has(.operacoes-section) {
   display: grid;
   grid-template-areas:

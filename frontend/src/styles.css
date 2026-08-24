@@ -10,7 +10,6 @@
   box-sizing: border-box;
 }
 
-/* ALTERADO: remove a aparencia das barras de rolagem em todas as paginas. */
 html,
 body,
 #root {
@@ -26,12 +25,10 @@ body::-webkit-scrollbar,
   height: 0;
 }
 
-/* ALTERADO: impede somente a rolagem horizontal acidental do viewport. */
 html,
 body,
 #root {
   overflow-x: hidden;
-  /* ALTERADO: fixa a aplicacao na altura da viewport, sem scroll externo. */
   height: 100%;
   overflow-y: hidden;
 }
@@ -41,7 +38,6 @@ body {
   min-width: 320px;
 }
 
-/* ALTERADO: impede que qualquer pagina ultrapasse a area visivel. */
 .agency-layout,
 .criar-conta,
 .adicionar-saldo,
@@ -52,7 +48,6 @@ body {
   overflow: hidden;
 }
 
-/* ALTERADO: os wrappers internos podem encolher dentro do grid. */
 .agency-content-area,
 .clients-content-area,
 .contas-content-area,
@@ -309,7 +304,6 @@ input::placeholder {
   }
 }
 
-/* ALTERADO: encaixa o Login inteiro em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
   .login-page {
     height: 100vh;

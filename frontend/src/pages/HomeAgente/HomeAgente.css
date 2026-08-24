@@ -196,7 +196,6 @@
   }
 }
 
-/* ALTERADO: reduz o respiro vertical em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
   .agency-main {
     padding-top: 18px;

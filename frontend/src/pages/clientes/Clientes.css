@@ -247,7 +247,6 @@
   }
 }
 
-/* ALTERADO: compacta a listagem em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
   .clients-main {
     padding-top: 28px;
@@ -266,7 +265,6 @@
 }
 
 .clients-layout > .clients-content-area {
-  /* ALTERADO: o wrapper passa a ocupar a area de conteudo do grid. */
   grid-area: content;
   min-width: 0;
 } 

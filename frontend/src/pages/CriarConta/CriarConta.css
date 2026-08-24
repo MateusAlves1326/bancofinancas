@@ -140,7 +140,6 @@
 	}
 }
 
-/* ALTERADO: encaixa o formulario inteiro em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
 	.criar-conta > main {
 		padding: 24px clamp(24px, 5vw, 64px) 28px;
@@ -192,7 +191,7 @@
 	}
 }
 
-/* ALTERADO: prepara a troca entre Sidebar fechada e aberta. */
+
 .criar-conta:not(.sidebar-open) {
 	grid-template-areas:
 		'header'
@@ -208,7 +207,6 @@
 }
 
 @media (max-width: 800px) {
-	/* ALTERADO: prepara a troca responsiva entre Sidebar fechada e aberta. */
 	.criar-conta:not(.sidebar-open),
 	.criar-conta.sidebar-open {
 		grid-template-areas:

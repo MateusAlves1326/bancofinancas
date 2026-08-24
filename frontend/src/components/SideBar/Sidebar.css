@@ -2,10 +2,8 @@
     display: flex;
     flex-direction: column;
     width: 248px;
-    /* ALTERADO: a Sidebar acompanha exatamente a altura da viewport. */
     height: 100vh;
     min-height: 0;
-    /* ALTERADO: evita que o menu crie uma rolagem propria. */
     overflow: hidden;
     padding: 28px 16px 20px;
     color: #dce6e8;
@@ -128,7 +126,6 @@
     }
 }
 
-/* ALTERADO: reduz os espacamentos do menu em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
     .sidebar {
         padding: 16px 12px 14px;

@@ -118,7 +118,6 @@
     }
 }
 
-/* ALTERADO: compacta o formulario em monitores com pouca altura. */
 @media (max-height: 800px) and (min-width: 801px) {
     .adicionar-saldo > main {
         padding: 24px clamp(24px, 5vw, 64px) 28px;
