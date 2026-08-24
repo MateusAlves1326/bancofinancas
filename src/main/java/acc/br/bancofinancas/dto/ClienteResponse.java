@@ -5,7 +5,8 @@ public class ClienteResponse {
     private String nome;
     private String cpf;
     private String telefone;
-    private String email; 
+    private String email;
+    private String endereco;
 
 
     public Integer getIdCustomer() {
@@ -28,6 +29,10 @@ public class ClienteResponse {
         return email;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
     public void setIdCustomer(Integer idCustomer) {
         this.idCustomer = idCustomer;
     }
@@ -48,4 +53,7 @@ public class ClienteResponse {
         this.email = email;
     }
 
-}
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+    }

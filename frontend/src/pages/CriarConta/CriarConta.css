@@ -11,16 +11,24 @@
 		'sidebar main';
 	grid-template-columns: 248px minmax(0, 1fr);
 	grid-template-rows: auto 1fr;
-	min-height: 100vh;
+	height: 100vh;
+	overflow: hidden;
 	background: #f4f0e9;
 }
 
 .criar-conta > .sidebar {
 	grid-area: sidebar;
+	height: 100vh;
+	overflow: hidden;
+	position: sticky;
+	top: 0;
 }
 
 .criar-conta > .header {
 	grid-area: header;
+	position: sticky;
+	top: 0;
+	z-index: 2;
 }
 
 .criar-conta > main {
@@ -28,6 +36,9 @@
 	width: min(100%, 920px);
 	margin: 0 auto;
 	padding: 52px clamp(24px, 5vw, 72px) 72px;
+	overflow-y: auto;
+	height: calc(100vh - 80px);
+	box-sizing: border-box;
 }
 
 .criar-conta h1 {
@@ -215,4 +226,38 @@
 			'main';
 		grid-template-columns: 1fr;
 	}
+}
+
+.button-normal {
+	grid-column: 1 / -1;
+	justify-self: start;
+	min-height: 46px;
+	margin-top: 8px;
+	padding: 0 22px;
+	border: 0;
+	border-radius: 4px;
+	color: #fffaf3;
+	background: var(--navy);
+	cursor: pointer;
+	font: 700 14px Arial, sans-serif;
+	transition: background 160ms ease, transform 160ms ease;
+}
+
+.button-normal:hover:not(:disabled) {
+	background: var(--accent);
+	transform: translateY(-1px);
+}
+
+.button-normal:disabled {
+	cursor: wait;
+	opacity: 0.65;
+}
+
+.button-normal:disabled + .erro {
+	margin: 24px 0 -14px;
+	padding: 13px 16px;
+	border-left: 3px solid #eb5a4f;
+	color: #8e302b;
+	background: #fff0ed;
+	font: 14px/1.5 Arial, sans-serif;
 }

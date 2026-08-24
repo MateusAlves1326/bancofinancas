@@ -39,11 +39,16 @@ public class ContaCorrenteService {
 
         validarPermissaoAgencia(agencia);
 
+        String senha = request.getSenha() == null || request.getSenha().isBlank()
+                ? "0000"
+                : request.getSenha();
+
         ContaCorrente contaCorrente = new ContaCorrente();
         contaCorrente.setCliente(cliente);
         contaCorrente.setAgencia(agencia);
         contaCorrente.setNumero(request.getNumero());
         contaCorrente.setSaldo(request.getSaldo());
+        contaCorrente.setSenha(senha);
 
         return toResponse(contaCorrenteRepository.save(contaCorrente));
     }
@@ -95,9 +100,15 @@ public class ContaCorrenteService {
             return;
         }
 
-        if (user.getRole() != acc.br.bancofinancas.model.Role.AGENCIA
-                || user.getAgenciaId() == null
-                || agencia.getIdAgency() != user.getAgenciaId()) {
+        boolean permitido = user.getRole() == acc.br.bancofinancas.model.Role.AGENCIA
+                || user.getRole() == acc.br.bancofinancas.model.Role.ADMIN;
+
+        if (!permitido) {
+            throw new IllegalArgumentException("Usuário sem permissão para operar contas");
+        }
+
+        if (user.getRole() == acc.br.bancofinancas.model.Role.AGENCIA
+                && (user.getAgenciaId() == null || agencia.getIdAgency() != user.getAgenciaId())) {
             throw new IllegalArgumentException("Agência só pode operar contas da própria agência");
         }
     }

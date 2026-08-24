@@ -20,9 +20,8 @@ body,
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
 #root::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+  width: 2px;
+  height: 2px;
 }
 
 html,
@@ -30,12 +29,12 @@ body,
 #root {
   overflow-x: hidden;
   height: 100%;
-  overflow-y: hidden;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  overflow-y: auto;
 }
 
 .agency-layout,
@@ -54,7 +53,9 @@ body {
 .criar-conta > main,
 .adicionar-saldo > main {
   min-height: 0;
-  overflow: hidden;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .submit-button {

@@ -7,6 +7,10 @@ import './CriarConta.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+function gerarNumeroContaAleatorio() {
+    return String(Math.floor(10000 + Math.random() * 90000));
+}
+
 function CriarConta() {
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,12 +23,29 @@ function CriarConta() {
         nome: '',
         email: '',
         telefone: '',
-        cpf: ''
+        cpf: '',
+        endereco: ''
     });
+
+    const [endereco, setEndereco] = useState({
+        rua: '',
+        numero: '',
+        bairro: '',
+        cidade: '',
+        uf: ''
+    });
+
+    const [senhaCliente, setSenhaCliente] = useState(() => {
+        return String(Math.floor(1000 + Math.random() * 9000));
+    });
+
+    const [cep, setCep] = useState('');
+    const [buscandoCep, setBuscandoCep] = useState(false);
+    const [erroCep, setErroCep] = useState('');
 
     const [conta, setConta] = useState({
         agenciaId: '',
-        numero: '',
+        numero: gerarNumeroContaAleatorio(),
         saldo: 0
     });
 
@@ -40,13 +61,70 @@ function CriarConta() {
         });
     }
 
+    function handleEnderecoChange(event) {
+        const { name, value } = event.target;
+
+        setEndereco((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
     function handleContaChange(event) {
         const { name, value } = event.target;
+
+        if (name === 'numero') {
+            const numeroSomenteDigitos = value.replace(/\D/g, '').slice(0, 5);
+            setConta({
+                ...conta,
+                [name]: numeroSomenteDigitos
+            });
+            return;
+        }
 
         setConta({
             ...conta,
             [name]: value
         });
+    }
+
+    function handleCepChange(event) {
+        const valor = event.target.value.replace(/\D/g, '').slice(0, 8);
+        setCep(valor);
+        setErroCep('');
+    }
+
+    async function handleBuscarCep() {
+        if (cep.length !== 8) {
+            setErroCep('CEP inválido');
+            return;
+        }
+
+        setBuscandoCep(true);
+        setErroCep('');
+
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+
+            if (data.erro) {
+                setErroCep('CEP não encontrado');
+                return;
+            }
+
+            setEndereco((prev) => ({
+                ...prev,
+                rua: data.logradouro || prev.rua,
+                bairro: data.bairro || prev.bairro,
+                cidade: data.localidade || prev.cidade,
+                uf: data.uf || prev.uf,
+            }));
+        } catch (error) {
+            console.error(error);
+            setErroCep('Erro ao buscar o CEP');
+        } finally {
+            setBuscandoCep(false);
+        }
     }
 
     async function handleSubmit(event) {
@@ -63,14 +141,33 @@ function CriarConta() {
                 return;
             }
 
-            // 1. Criar o cliente
-            const clienteResponse = await fetch(`${API_URL}/clientes`, {
+            const enderecoCompleto = [
+                endereco.rua,
+                endereco.numero,
+                endereco.bairro,
+                endereco.cidade,
+                endereco.uf,
+            ].filter(Boolean).join(', ');
+
+            const payload = {
+                nome: cliente.nome,
+                email: cliente.email,
+                telefone: cliente.telefone,
+                cpf: cliente.cpf,
+                endereco: enderecoCompleto,
+                agenciaId: Number(conta.agenciaId),
+                numero: Number(conta.numero),
+                saldo: Number(conta.saldo),
+                senha: senhaCliente
+            };
+
+            const clienteResponse = await fetch(`${API_URL}/clientes/com-conta`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(cliente)
+                body: JSON.stringify(payload)
             });
 
             if (clienteResponse.status === 401 || clienteResponse.status === 403) {
@@ -80,39 +177,14 @@ function CriarConta() {
             }
 
             if (!clienteResponse.ok) {
-                throw new Error('Erro ao cadastrar cliente');
+                const body = await clienteResponse.json().catch(() => ({}));
+                throw new Error(body.message || 'Erro ao cadastrar cliente e conta');
             }
 
             const clienteCriado = await clienteResponse.json();
 
-            // 2. O backend retorna o identificador como idCustomer
-            const clienteId = clienteCriado.idCustomer;
-
-            if (!clienteId) {
+            if (!clienteCriado || !clienteCriado.idCustomer) {
                 throw new Error('A API não retornou o ID do cliente');
-            }
-
-            // 3. Criar a conta vinculada ao cliente
-            const contaResponse = await fetch(`${API_URL}/agentes/contas`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                    clienteId: clienteId,
-                    agenciaId: Number(conta.agenciaId),
-                    numero: Number(conta.numero),
-                    saldo: Number(conta.saldo)
-                })
-            });
-
-            const contaBody = await contaResponse.json().catch(() => ({}));
-
-            if (!contaResponse.ok) {
-                throw new Error(
-                    contaBody.message || 'Cliente criado, mas ocorreu um erro ao criar a conta',
-                );
             }
 
             {
@@ -192,6 +264,88 @@ function CriarConta() {
                             />
                         </div>
 
+                        <div>
+                            <label>CEP</label>
+                            <input
+                                type="text"
+                                name="cep"
+                                value={cep}
+                                onChange={handleCepChange}
+                                maxLength={8}
+                                placeholder="Somente números"
+                            />
+                            <button className='button-normal' type="button" onClick={handleBuscarCep} disabled={buscandoCep}>
+                                {buscandoCep ? 'Buscando...' : 'Buscar Endereço'}
+                            </button>
+                            {erroCep && <p className="erro">{erroCep}</p>}
+                        </div>
+
+<div style={{ display: 'grid', gridTemplateColumns: '2fr 120px 1fr', gap: '12px' }}>
+                            <div>
+                                <label>Rua</label>
+                                <input
+                                    type="text"
+                                    name="rua"
+                                    value={endereco.rua}
+                                    onChange={handleEnderecoChange}
+                                />
+                            </div>
+                            <div>
+                                <label>Número</label>
+                                <input
+                                    type="text"
+                                    name="numero"
+                                    value={endereco.numero}
+                                    onChange={handleEnderecoChange}
+                                />
+                            </div>
+                            <div>
+                                <label>Bairro</label>
+                                <input
+                                    type="text"
+                                    name="bairro"
+                                    value={endereco.bairro}
+                                    onChange={handleEnderecoChange}
+                                />
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 0.7fr', gap: '12px' }}>
+                            <div>
+                                <label>Cidade</label>
+                                <input
+                                    type="text"
+                                    name="cidade"
+                                    value={endereco.cidade}
+                                    onChange={handleEnderecoChange}
+                                />
+                            </div>
+                            <div>
+                                <label>UF</label>
+                                <input
+                                    type="text"
+                                    name="uf"
+                                    value={endereco.uf}
+                                    onChange={handleEnderecoChange}
+                                    maxLength={2}
+                                    style={{ textTransform: 'uppercase' }}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label>Senha do cliente</label>
+                            <input
+                                type="text"
+                                value={senhaCliente}
+                                readOnly
+                                style={{ background: '#f5f5f5' }}
+                            />
+                            <button className='button-normal' type="button" onClick={() => setSenhaCliente(String(Math.floor(1000 + Math.random() * 9000)))}>
+                                Gerar nova senha
+                            </button>
+                        </div>
+
                         <h2>Dados da Conta</h2>
 
                         <div>
@@ -208,12 +362,21 @@ function CriarConta() {
                         <div>
                             <label>Número da Conta</label>
                             <input
-                                type="number"
+                                type="text"
                                 name="numero"
                                 value={conta.numero}
                                 onChange={handleContaChange}
+                                maxLength={5}
+                                inputMode="numeric"
                                 required
                             />
+                            <button
+                                className='button-normal'
+                                type="button"
+                                onClick={() => setConta((prev) => ({ ...prev, numero: gerarNumeroContaAleatorio() }))}
+                            >
+                                Gerar número
+                            </button>
                         </div>
 
                         <div>
