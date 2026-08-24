@@ -33,6 +33,9 @@ public class Cliente {
     @Column(name = "email", nullable = false, length = 45)
     private String email;
 
+    @Column(name = "endereco", length = 255)
+    private String endereco;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContaCorrente> contas = new ArrayList<>();
@@ -77,6 +80,14 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public List<ContaCorrente> getContas() {

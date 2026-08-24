@@ -11,16 +11,24 @@
 		'sidebar main';
 	grid-template-columns: 248px minmax(0, 1fr);
 	grid-template-rows: auto 1fr;
-	min-height: 100vh;
+	height: 100vh;
+	overflow: hidden;
 	background: #f4f0e9;
 }
 
 .criar-conta > .sidebar {
 	grid-area: sidebar;
+	height: 100vh;
+	overflow: hidden;
+	position: sticky;
+	top: 0;
 }
 
 .criar-conta > .header {
 	grid-area: header;
+	position: sticky;
+	top: 0;
+	z-index: 2;
 }
 
 .criar-conta > main {
@@ -28,6 +36,9 @@
 	width: min(100%, 920px);
 	margin: 0 auto;
 	padding: 52px clamp(24px, 5vw, 72px) 72px;
+	overflow-y: auto;
+	height: calc(100vh - 80px);
+	box-sizing: border-box;
 }
 
 .criar-conta h1 {

@@ -11,6 +11,7 @@ import acc.br.bancofinancas.repository.ContaCorrenteRepository;
 import acc.br.bancofinancas.security.AuthenticatedUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +21,17 @@ public class ContaCorrenteService {
     private final ContaCorrenteRepository contaCorrenteRepository;
     private final ClienteRepository clienteRepository;
     private final AgenciaRepository agenciaRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public ContaCorrenteService(
             ContaCorrenteRepository contaCorrenteRepository,
             ClienteRepository clienteRepository,
-            AgenciaRepository agenciaRepository) {
+            AgenciaRepository agenciaRepository,
+            PasswordEncoder passwordEncoder) {
         this.contaCorrenteRepository = contaCorrenteRepository;
         this.clienteRepository = clienteRepository;
         this.agenciaRepository = agenciaRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ContaCorrenteResponse createContaCorrente(CreateContaCorrenteRequest request) {
@@ -39,11 +43,16 @@ public class ContaCorrenteService {
 
         validarPermissaoAgencia(agencia);
 
+        String senha = request.getSenha() == null || request.getSenha().isBlank()
+                ? "0000"
+                : request.getSenha();
+
         ContaCorrente contaCorrente = new ContaCorrente();
         contaCorrente.setCliente(cliente);
         contaCorrente.setAgencia(agencia);
         contaCorrente.setNumero(request.getNumero());
         contaCorrente.setSaldo(request.getSaldo());
+        contaCorrente.setSenha(passwordEncoder.encode(senha));
 
         return toResponse(contaCorrenteRepository.save(contaCorrente));
     }

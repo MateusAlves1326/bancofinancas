@@ -28,6 +28,7 @@ public class ClienteService {
         cliente.setCpf(request.getCpf());
         cliente.setEmail(request.getEmail());
         cliente.setTelefone(request.getTelefone());
+        cliente.setEndereco(request.getEndereco());
 
         Cliente salvo = clienteRepository.save(cliente);
 
@@ -47,6 +48,7 @@ public class ClienteService {
         response.setCpf(cliente.getCpf());
         response.setEmail(cliente.getEmail());
         response.setTelefone(cliente.getTelefone());
+        response.setEndereco(cliente.getEndereco());
         return response;
     }
 }

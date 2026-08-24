@@ -37,6 +37,9 @@ public class ContaCorrente {
     @Column(name = "bloqueada", nullable = false)
     private boolean bloqueada;
 
+    @Column(name = "senha", length = 4)
+    private String senha;
+
     @Column(name = "motivo_bloqueio", length = 255)
     private String motivoBloqueio;
 
@@ -89,6 +92,14 @@ public class ContaCorrente {
 
     public void setBloqueada(boolean bloqueada) {
         this.bloqueada = bloqueada;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getMotivoBloqueio() {

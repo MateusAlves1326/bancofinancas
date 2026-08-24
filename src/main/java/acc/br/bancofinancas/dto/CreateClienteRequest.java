@@ -16,6 +16,8 @@ public class CreateClienteRequest {
     @NotBlank (message = "O CPF não pode estar em branco")
     private String cpf;
 
+    private String endereco;
+
     //getters
     
      public String getCpf() {
@@ -35,6 +37,10 @@ public class CreateClienteRequest {
         return telefone;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
     //setters
     public void setNome(String nome) {
         this.nome = nome;
@@ -50,6 +56,10 @@ public class CreateClienteRequest {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }   
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
 
 }

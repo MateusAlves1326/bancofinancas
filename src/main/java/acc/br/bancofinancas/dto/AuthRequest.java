@@ -4,8 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 
 public class AuthRequest {
 
-    @NotBlank
     private String username;
+
+    private Long agenciaId;
+
+    private Integer numeroConta;
 
     @NotBlank
     private String password;
@@ -16,6 +19,22 @@ public class AuthRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Long getAgenciaId() {
+        return agenciaId;
+    }
+
+    public void setAgenciaId(Long agenciaId) {
+        this.agenciaId = agenciaId;
+    }
+
+    public Integer getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(Integer numeroConta) {
+        this.numeroConta = numeroConta;
     }
 
     public String getPassword() {

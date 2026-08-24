@@ -7,7 +7,7 @@ import ModalMotivoConta from '../../components/ModalMotivoConta/ModalMotivoConta
 import './Contas.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const ITENS_POR_PAGINA = 5;
+const ITENS_POR_PAGINA = 10;
 
 function Contas() {
     const navigate = useNavigate();
@@ -19,11 +19,11 @@ function Contas() {
     const [contaSelecionada, setContaSelecionada] = useState(null);
     const [acaoModal, setAcaoModal] = useState(null);
     const [isUpdating, setIsUpdating] = useState(false);
-     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-      function handleMenuClick(){
-    setSidebarOpen((previousValue) => !previousValue);
-  }
+    function handleMenuClick() {
+        setSidebarOpen((previousValue) => !previousValue);
+    }
 
     const contasFiltradas = contas.filter((conta) => {
         const termo = searchTerm.trim().toLowerCase();
@@ -34,10 +34,10 @@ function Contas() {
         return [conta.numero, conta.clienteNome, conta.agenciaId]
             .some((valor) => String(valor).toLowerCase().includes(termo));
     });
-            const totalPaginas = Math.max(1, Math.ceil(contasFiltradas.length / ITENS_POR_PAGINA));
-            const paginaExibida = Math.min(paginaAtual, totalPaginas);
-            const inicio = (paginaExibida - 1) * ITENS_POR_PAGINA;
-            const contasPaginadas = contasFiltradas.slice(inicio, inicio + ITENS_POR_PAGINA);
+    const totalPaginas = Math.max(1, Math.ceil(contasFiltradas.length / ITENS_POR_PAGINA));
+    const paginaExibida = Math.min(paginaAtual, totalPaginas);
+    const inicio = (paginaExibida - 1) * ITENS_POR_PAGINA;
+    const contasPaginadas = contasFiltradas.slice(inicio, inicio + ITENS_POR_PAGINA);
 
     function abrirModal(conta, acao) {
         setContaSelecionada(conta);
@@ -129,11 +129,9 @@ function Contas() {
         carregarContas();
     }, [navigate]);
     return (
-        <div className={`contas-layout${sidebarOpen ? ' sidebar-open' : ''}`}> {/* ALTERADO */}
-      {/* ALTERADO: o Header fica no grid principal e abre a Sidebar. */}
-      <Header onMenuClick={handleMenuClick} />
-      {/* ALTERADO: a Sidebar so existe quando esta aberta; o BF interno fecha. */}
-      {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
+        <div className={`contas-layout${sidebarOpen ? ' sidebar-open' : ''}`}>
+            <Header onMenuClick={handleMenuClick} />
+            {sidebarOpen && <Sidebar onMenuClick={handleMenuClick} />}
             <div className="agency-content-area">
                 <main className="agency-main">
                     <div className="agency-heading">
@@ -173,36 +171,36 @@ function Contas() {
                         {!isLoading && !errorMessage && contasFiltradas.length > 0 && (
                             <div className="contas-table-wrapper">
                                 <table className="contas-table">
-                                <thead>
-                                    <tr>
-                                        <th>Conta</th>
-                                        <th>Cliente</th>
-                                        <th>Saldo</th>
-                                        <th>Agencia</th>
-                                        <th>Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {contasPaginadas.map((conta) => (
-                                        <tr key={conta.id}>
-                                            <td>{conta.numero}</td>
-                                            <td>{conta.clienteNome}</td>
-                                            <td>{conta.saldo}</td>
-                                            <td>{conta.agenciaId}</td>
-                                            <td className="contas-actions">
-                                                {conta.bloqueada ? (
-                                                    <button className="contas-action-button unblock" onClick={() => abrirModal(conta, 'desbloquear')} type="button">
-                                                        Desbloquear
-                                                    </button>
-                                                ) : (
-                                                    <button className="contas-action-button block" onClick={() => abrirModal(conta, 'bloquear')} type="button">
-                                                        Bloquear
-                                                    </button>
-                                                )}
-                                            </td>
+                                    <thead>
+                                        <tr>
+                                            <th>Conta</th>
+                                            <th>Cliente</th>
+                                            <th>Saldo</th>
+                                            <th>Agencia</th>
+                                            <th>Ações</th>
                                         </tr>
-                                    ))}
-                                </tbody>
+                                    </thead>
+                                    <tbody>
+                                        {contasPaginadas.map((conta) => (
+                                            <tr key={conta.id}>
+                                                <td>{conta.numero}</td>
+                                                <td>{conta.clienteNome}</td>
+                                                <td>{conta.saldo}</td>
+                                                <td>{conta.agenciaId}</td>
+                                                <td className="contas-actions">
+                                                    {conta.bloqueada ? (
+                                                        <button className="contas-action-button unblock" onClick={() => abrirModal(conta, 'desbloquear')} type="button">
+                                                            Desbloquear
+                                                        </button>
+                                                    ) : (
+                                                        <button className="contas-action-button block" onClick={() => abrirModal(conta, 'bloquear')} type="button">
+                                                            Bloquear
+                                                        </button>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
                         )}
