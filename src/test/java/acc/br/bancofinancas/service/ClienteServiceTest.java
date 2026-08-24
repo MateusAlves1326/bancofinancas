@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import acc.br.bancofinancas.dto.ClienteResponse;
 import acc.br.bancofinancas.dto.CreateClienteComContaRequest;
@@ -37,9 +36,6 @@ class ClienteServiceTest {
     @Mock
     private AgenciaRepository agenciaRepository;
 
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
     @InjectMocks
     private ClienteService clienteService;
 
@@ -61,7 +57,6 @@ class ClienteServiceTest {
 
         when(clienteRepository.existsByCpf("12345678909")).thenReturn(false);
         when(agenciaRepository.findById(1)).thenReturn(Optional.of(agencia));
-        when(passwordEncoder.encode("1234")).thenReturn("hashed-password");
         when(clienteRepository.save(any(Cliente.class))).thenAnswer(invocation -> {
             Cliente cliente = invocation.getArgument(0);
             cliente.setIdCustomer(10);

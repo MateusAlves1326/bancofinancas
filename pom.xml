@@ -93,7 +93,6 @@
 	</dependencies>
 
 	<build>
-		<testSourceDirectory>src/teste/java</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
