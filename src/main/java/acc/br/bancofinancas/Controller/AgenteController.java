@@ -75,10 +75,9 @@ public class AgenteController {
             contaId, request.getClienteId(), request.getBloqueada(), request.getMotivo());
     }
 
-    @PostMapping("/contas/{contaId}/saldo")
-    public Extrato adicionarSaldoManual(
-            @PathVariable Long contaId,
-            @Valid @RequestBody CreditoManualRequest request) {
-        return operacaoService.creditarSaldoManual(contaId, request.getClienteId(), request.getValor());
+    @PostMapping("/contas/saldo")
+    public Extrato adicionarSaldoManual(@Valid @RequestBody CreditoManualRequest request) {
+        return operacaoService.creditarSaldoManual(
+                request.getAgenciaId(), request.getNumeroConta(), request.getValor());
     }
 }

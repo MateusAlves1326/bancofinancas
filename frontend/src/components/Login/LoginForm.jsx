@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -19,6 +20,7 @@ function LoginForm() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -84,17 +86,27 @@ function LoginForm() {
             <label htmlFor="password">Senha</label>
             <button type="button" className="forgot-link">Esqueci minha senha</button>
           </div>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Digite sua senha"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-          />
-
+          <div className="password-field">
+            <input
+              id="password"
+              name="password"
+              type={mostrarSenha ? 'text' : 'password'}
+              autoComplete="current-password"
+              placeholder="Digite sua senha"
+              value={credentials.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              aria-label={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
+              aria-pressed={mostrarSenha}
+              className="password-visibility-button"
+              onClick={() => setMostrarSenha((visivel) => !visivel)}
+              type="button"
+            >
+              {mostrarSenha ? <EyeOff aria-hidden="true" size={20} /> : <Eye aria-hidden="true" size={20} />}
+            </button>
+          </div>
           {status.message && (
             <p className={`status-message ${status.type}`} role="alert">
               {status.message}

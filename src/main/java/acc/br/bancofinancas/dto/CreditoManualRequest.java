@@ -8,18 +8,29 @@ import jakarta.validation.constraints.NotNull;
 public class CreditoManualRequest {
 
     @NotNull
-    private Long clienteId;
+    private Long agenciaId;
+
+    @NotNull
+    private Integer numeroConta;
 
     @NotNull
     @DecimalMin(value = "0.01")
     private BigDecimal valor;
 
-    public Long getClienteId() {
-        return clienteId;
+    public Long getAgenciaId() {
+        return agenciaId;
     }
 
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
+    public void setAgenciaId(Long agenciaId) {
+        this.agenciaId = agenciaId;
+    }
+
+    public Integer getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(Integer numeroConta) {
+        this.numeroConta = numeroConta;
     }
 
     public BigDecimal getValor() {

@@ -228,10 +228,55 @@ input::placeholder {
   color: #9b9a96;
 }
 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .password-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.password-field {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.password-field input {
+  margin-bottom: 0;
+  padding-right: 52px;
+}
+
+.password-visibility-button {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  color: #3f5369;
+  background: transparent;
+  font-size: 18px;
+  place-items: center;
+  transform: translateY(-50%);
+}
+
+.password-visibility-button:hover,
+.password-visibility-button:focus-visible {
+  color: #bb7454;
+  background: rgba(187, 116, 84, 0.12);
+  outline: none;
 }
 
 .forgot-link {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { Eye, EyeOff } from 'lucide-react';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 function ClienteLogin() {
@@ -8,6 +8,11 @@ function ClienteLogin() {
   const [credentials, setCredentials] = useState({ agenciaId: '', numeroConta: '', password: '' });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  function impedirAlteracaoPorScroll(event) {
+    event.currentTarget.blur();
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -62,6 +67,7 @@ function ClienteLogin() {
               id="agenciaId"
               name="agenciaId"
               type="number"
+              onWheel={impedirAlteracaoPorScroll}
               min="1"
               placeholder="Digite a agência"
               value={credentials.agenciaId}
@@ -74,6 +80,7 @@ function ClienteLogin() {
               id="numeroConta"
               name="numeroConta"
               type="number"
+              onWheel={impedirAlteracaoPorScroll}
               min="1"
               placeholder="Digite o número da conta"
               value={credentials.numeroConta}
@@ -84,19 +91,31 @@ function ClienteLogin() {
             <div className="password-heading">
               <label htmlFor="password">Senha de 4 dígitos</label>
             </div>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              inputMode="numeric"
-              maxLength={4}
-              pattern="[0-9]*"
-              placeholder="Digite a senha"
-              value={credentials.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="password-field">
 
+              <input
+                id="password"
+                name="password"
+                type={mostrarSenha ? 'text' : 'password'}
+                inputMode="numeric"
+                maxLength={4}
+                pattern="[0-9]*"
+                placeholder="Digite a senha"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+              />
+
+              <button
+                aria-label={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
+                aria-pressed={mostrarSenha}
+                className="password-visibility-button"
+                onClick={() => setMostrarSenha((visivel) => !visivel)}
+                type="button"
+              >
+                {mostrarSenha ? <EyeOff aria-hidden="true" size={20} /> : <Eye aria-hidden="true" size={20} />}
+              </button>
+            </div>
             {status.message && (
               <p className={`status-message ${status.type}`} role="alert">
                 {status.message}

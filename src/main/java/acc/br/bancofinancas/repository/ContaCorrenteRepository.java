@@ -9,5 +9,5 @@ public interface ContaCorrenteRepository extends JpaRepository<ContaCorrente, In
 
 	boolean existsByCliente_IdCustomerAndAgencia_IdAgency(int clienteId, int agenciaId);
 	boolean existsByAgencia_IdAgencyAndNumero(int agenciaId, int numero);
-	Optional<ContaCorrente> findByAgencia_IdAgencyAndNumero(int agenciaId, int numero);
+	Optional<ContaCorrente> findByAgencia_IdAgencyAndNumero(int agenciaId, long numeroConta);
 }

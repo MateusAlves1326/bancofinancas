@@ -11,6 +11,10 @@ function gerarNumeroContaAleatorio() {
     return String(Math.floor(10000 + Math.random() * 90000));
 }
 
+function impedirAlteracaoPorScroll(event) {
+  event.currentTarget.blur();
+}
+
 function CriarConta() {
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -353,6 +357,7 @@ function CriarConta() {
                             <input
                                 type="number"
                                 name="agenciaId"
+                                onWheel={impedirAlteracaoPorScroll}
                                 value={conta.agenciaId}
                                 onChange={handleContaChange}
                                 required
@@ -385,9 +390,10 @@ function CriarConta() {
                                 type="number"
                                 name="saldo"
                                 value={conta.saldo}
+                                onWheel={impedirAlteracaoPorScroll}
                                 onChange={handleContaChange}
                                 min="0"
-                                step="0.01"
+                                step="1"
                             />
                         </div>
 

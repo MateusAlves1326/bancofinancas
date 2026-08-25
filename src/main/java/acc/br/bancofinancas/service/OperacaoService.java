@@ -85,7 +85,7 @@ public class OperacaoService {
     }
 
     @Transactional
-    public Extrato creditarSaldoManual(Long contaCorrenteId, Long clienteId, BigDecimal valor) {
+    public Extrato creditarSaldoManual(Long agenciaId, Integer numeroConta, BigDecimal valor) {
         if (valor == null || valor.signum() <= 0) {
             throw new IllegalArgumentException("O valor do crédito manual deve ser maior que zero");
         }
@@ -95,10 +95,11 @@ public class OperacaoService {
             throw new IllegalArgumentException("Somente usuários da agência podem adicionar saldo manualmente");
         }
 
-        ContaCorrente conta = contaCorrenteRepository.findById(contaCorrenteId.intValue())
+        ContaCorrente conta = contaCorrenteRepository.findByAgencia_IdAgencyAndNumero(
+                agenciaId.intValue(), numeroConta)
                 .orElseThrow(() -> new IllegalArgumentException("Conta corrente não encontrada"));
 
-        validarPermissaoConta(conta, clienteId);
+        validarPermissaoConta(conta, (long) conta.getCliente().getIdCustomer());
         return processarMovimentacaoConta(conta, valor, Operacao.CREDITO_MANUAL, null);
     }
 

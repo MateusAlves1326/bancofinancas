@@ -9,8 +9,8 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 function AdicionarSaldo() {
     const navigate = useNavigate();
-    const [contaId, setContaId] = useState('');
-    const [clienteId, setClienteId] = useState('');
+    const [agenciaId, setAgenciaId] = useState('');
+    const [numeroConta, setNumeroConta] = useState('');
     const [valor, setValor] = useState('');
     const [loading, setLoading] = useState(false);
     const [erro, setErro] = useState('');
@@ -21,6 +21,10 @@ function AdicionarSaldo() {
         setSidebarOpen((prev) => !prev);
     }
 
+    function impedirAlteracaoPorScroll(event) {
+        event.currentTarget.blur();
+    }
+    
     async function handleSubmit(event) {
         event.preventDefault();
         setLoading(true);
@@ -34,14 +38,15 @@ function AdicionarSaldo() {
                 return;
             }
 
-            const response = await fetch(`${API_URL}/agentes/contas/${contaId}/saldo`, {
+            const response = await fetch(`${API_URL}/agentes/contas/saldo`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    clienteId: Number(clienteId),
+                    agenciaId: Number(agenciaId),
+                    numeroConta: Number(numeroConta),
                     valor: Number(valor)
                 })
             });
@@ -74,24 +79,26 @@ function AdicionarSaldo() {
                 {erro && <p role="alert">{erro}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="contaId">Número da Conta:</label>
+                        <label htmlFor="agenciaId">Agência:</label>
                         <input
                             type="number"
-                            id="contaId"
-                            name="contaId"
-                            value={contaId}
-                            onChange={(event) => setContaId(event.target.value)}
+                            id="agenciaId"
+                            name="agenciaId"
+                            value={agenciaId}
+                            onWheel={impedirAlteracaoPorScroll}
+                            onChange={(event) => setAgenciaId(event.target.value)}
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="clienteId">ID do Cliente:</label>
+                        <label htmlFor="numeroConta">Número da Conta:</label>
                         <input
                             type="number"
-                            id="clienteId"
-                            name="clienteId"
-                            value={clienteId}
-                            onChange={(event) => setClienteId(event.target.value)}
+                            id="numeroConta"
+                            name="numeroConta"
+                            value={numeroConta}
+                            onWheel={impedirAlteracaoPorScroll}
+                            onChange={(event) => setNumeroConta(event.target.value)}
                             required
                         />
                     </div>
@@ -104,6 +111,7 @@ function AdicionarSaldo() {
                             min="0.01"
                             step="0.01"
                             value={valor}
+                            onWheel={impedirAlteracaoPorScroll}
                             onChange={(event) => setValor(event.target.value)}
                             required
                         />

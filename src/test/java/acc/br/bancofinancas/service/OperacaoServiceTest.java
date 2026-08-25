@@ -141,13 +141,14 @@ class OperacaoServiceTest {
         conta.setIdContaCorrente(1);
         conta.setAgencia(agencia);
         conta.setCliente(cliente);
+        conta.setNumero(12345);
         AuthenticatedUser usuario = new AuthenticatedUser("agente", "senha", Role.AGENCIA, null, 2);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities()));
-        when(contaCorrenteRepository.findById(1)).thenReturn(Optional.of(conta));
+        when(contaCorrenteRepository.findByAgencia_IdAgencyAndNumero(2, 12345)).thenReturn(Optional.of(conta));
         when(extratoRepository.save(any(Extrato.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Extrato extrato = operacaoService.creditarSaldoManual(1L, 1L, new BigDecimal("50.00"));
+        Extrato extrato = operacaoService.creditarSaldoManual(2L, 12345, new BigDecimal("50.00"));
 
         assertEquals(new BigDecimal("150.00"), conta.getSaldo());
         assertEquals(Operacao.CREDITO_MANUAL, extrato.getOperacao());
@@ -160,7 +161,7 @@ class OperacaoServiceTest {
                 new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities()));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> operacaoService.creditarSaldoManual(1L, 1L, new BigDecimal("50.00")));
+            () -> operacaoService.creditarSaldoManual(2L, 12345, new BigDecimal("50.00")));
 
         assertEquals("Somente usuários da agência podem adicionar saldo manualmente", exception.getMessage());
     }
@@ -168,7 +169,7 @@ class OperacaoServiceTest {
     @Test
     void deveRecusarCreditoManualComValorInvalido() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                () -> operacaoService.creditarSaldoManual(1L, 1L, BigDecimal.ZERO));
+                () -> operacaoService.creditarSaldoManual(2L, 12345, BigDecimal.ZERO));
 
         assertEquals("O valor do crédito manual deve ser maior que zero", exception.getMessage());
     }

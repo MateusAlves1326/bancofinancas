@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -72,14 +73,16 @@ class AgenteControllerTest {
         bloqueio.setBloqueada(true);
         bloqueio.setMotivo("Teste");
         CreditoManualRequest credito = new CreditoManualRequest();
-        credito.setClienteId(2L);
+        credito.setAgenciaId(1L);
+        credito.setNumeroConta(12345);
+        credito.setValor(new BigDecimal("50.00"));
         ContaCorrenteResponse conta = new ContaCorrenteResponse();
         conta.setId(1L);
         when(contaCorrenteService.atualizarBloqueio(1L, 2L, true, "Teste"))
             .thenReturn(conta);
-        when(operacaoService.creditarSaldoManual(1L, 2L, credito.getValor())).thenReturn(new Extrato());
+        when(operacaoService.creditarSaldoManual(1L, 12345, credito.getValor())).thenReturn(new Extrato());
 
         assertEquals(1L, agenteController.atualizarBloqueio(1L, bloqueio).getId());
-        agenteController.adicionarSaldoManual(1L, credito);
+        assertNotNull(agenteController.adicionarSaldoManual(credito));
     }
 }
