@@ -128,6 +128,81 @@
   cursor: not-allowed;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  z-index: 9999;
+}
+
+.modal {
+  position: relative;
+
+  width: 420px;
+  max-width: 90vw;
+
+  padding: 30px;
+
+  background: #fff;
+  border-radius: 12px;
+
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+
+  width: auto !important;
+
+  border: none;
+  background: transparent;
+
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.modal select {
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px;
+}
+
+.modal > button:not(.modal-close) {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.modal .is-danger {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.modal .refresh-button {
+  background: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.select-status {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+}
+
 @media (max-width: 700px) {
   .loja-page {
     padding: 1rem;
